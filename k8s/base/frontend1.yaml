@@ -21,6 +21,7 @@ metadata:
     team: frontend
     tier: web
   name: frontend
+  namespace: group4-ns
 spec:
   ports:
     - name: http
@@ -101,7 +102,7 @@ spec:
                 name: environment-config
             - configMapRef:
                 name: service-api-config
-          image: us-central1-docker.pkg.dev/trusty-fuze-456211-j9/frontend:placeholder
+          image: us-central1-docker.pkg.dev/dreamdev-team4/frontend:placeholder
           livenessProbe:
             httpGet:
               path: /ready
