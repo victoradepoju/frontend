@@ -44,6 +44,7 @@ metadata:
     team: frontend
     tier: web
   name: frontend
+  namespace: group4-ns
 spec:
   selector:
     matchLabels:
