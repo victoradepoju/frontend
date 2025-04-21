@@ -72,7 +72,7 @@ steps:
       - 'frontend=us-central1-docker.pkg.dev/${PROJECT_ID}/group4-repo/frontend:${SHORT_SHA}'
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=us-central1'
-      - 'CLOUDSDK_CONTAINER_CLUSTER=sgroup4-cluster'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=group4-cluster'
 
 images:
   - 'us-central1-docker.pkg.dev/${PROJECT_ID}/group4-repo/frontend:${SHORT_SHA}'
