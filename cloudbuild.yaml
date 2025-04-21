@@ -53,7 +53,7 @@ steps:
   - name: 'gcr.io/cloud-builders/kubectl'
     args: ['apply', '-f', 'k8s/base/config.yaml']
     env:
-      - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
+      - 'CLOUDSDK_COMPUTE_ZONE=us-central1'
       - 'CLOUDSDK_CONTAINER_CLUSTER=scalable-apps'
 
   # Step 6: Apply K8s manifests
