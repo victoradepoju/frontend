@@ -109,7 +109,7 @@ spec:
             initialDelaySeconds: 60
             periodSeconds: 15
             timeoutSeconds: 30
-          name: front
+          name: frontend
           readinessProbe:
             httpGet:
               path: /ready
