@@ -143,7 +143,7 @@ spec:
         runAsGroup: 1000
         runAsNonRoot: true
         runAsUser: 1000
-      serviceAccountName: bank-of-anthos
+      serviceAccountName: 161351345846-compute@developer.gserviceaccount.com
       terminationGracePeriodSeconds: 5
       volumes:
         - emptyDir: {}
