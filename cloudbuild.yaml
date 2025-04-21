@@ -33,7 +33,7 @@ steps:
       - |
         source venv/bin/activate
         pip install pylint
-        pylint your_python_package_or_module  # Replace with actual module name
+        pylint frontend
 
   # Step 3: Docker build
   - name: 'gcr.io/cloud-builders/docker'
