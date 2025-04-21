@@ -143,7 +143,7 @@ spec:
         runAsGroup: 1000
         runAsNonRoot: true
         runAsUser: 1000
-      serviceAccountName: 161351345846-compute@developer.gserviceaccount.com
+      serviceAccountName: default
       terminationGracePeriodSeconds: 5
       volumes:
         - emptyDir: {}
