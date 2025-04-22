@@ -70,6 +70,7 @@ steps:
       - 'image'
       - 'deployment/frontend'
       - 'frontend=us-central1-docker.pkg.dev/${PROJECT_ID}/group4-repo/frontend:${SHORT_SHA}'
+      - '--namespace=group4-ns'
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=us-central1'
       - 'CLOUDSDK_CONTAINER_CLUSTER=group4-cluster'
