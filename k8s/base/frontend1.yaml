@@ -103,7 +103,7 @@ spec:
                 name: environment-config
             - configMapRef:
                 name: service-api-config
-          image: us-central1-docker.pkg.dev/dreamdev-team4/frontend:placeholder
+          image: us-central1-docker.pkg.dev/dreamdev-team4/group4-repo/frontend:placeholder
           livenessProbe:
             httpGet:
               path: /ready
