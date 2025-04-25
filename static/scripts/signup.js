@@ -20,11 +20,18 @@ document.addEventListener("DOMContentLoaded", function () {
   const maxDate = today.toISOString().split("T")[0];
   document.querySelector("#signup-birthday").setAttribute("max", maxDate);
 
-  // Form elements
+  // Form sections
   const accountForm = document.getElementById("account-info-form");
   const personalForm = document.getElementById("personal-info-form");
+
+  // Buttons
   const continueBtn = document.getElementById("continue-btn");
   const backBtn = document.getElementById("back-btn");
+  const submitBtn = document.querySelector(
+    "#personal-info-form button[type='submit']"
+  );
+
+  // Alert banner
   const alertBanner = document.getElementById("alertBanner");
 
   // Form inputs
@@ -81,6 +88,45 @@ document.addEventListener("DOMContentLoaded", function () {
     return isValid;
   }
 
+  // Validate personal information
+  function validatePersonalInfo() {
+    let isValid = true;
+
+    // Validate first name
+    if (!firstNameInput.checkValidity()) {
+      firstNameInput.classList.add("is-invalid");
+      isValid = false;
+    } else {
+      firstNameInput.classList.remove("is-invalid");
+    }
+
+    // Validate last name
+    if (!lastNameInput.checkValidity()) {
+      lastNameInput.classList.add("is-invalid");
+      isValid = false;
+    } else {
+      lastNameInput.classList.remove("is-invalid");
+    }
+
+    // Validate birthday
+    if (!birthdayInput.checkValidity()) {
+      birthdayInput.classList.add("is-invalid");
+      isValid = false;
+    } else {
+      birthdayInput.classList.remove("is-invalid");
+    }
+
+    // Validate timezone
+    if (!timezoneInput.checkValidity()) {
+      timezoneInput.classList.add("is-invalid");
+      isValid = false;
+    } else {
+      timezoneInput.classList.remove("is-invalid");
+    }
+
+    return isValid;
+  }
+
   // Handle continue to personal info
   continueBtn.addEventListener("click", function (e) {
     e.preventDefault();
@@ -120,41 +166,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Handle final form submission
   signupForm.addEventListener("submit", function (e) {
     // First validate the personal info
-    let isValid = true;
-
-    // Validate first name
-    if (!firstNameInput.checkValidity()) {
-      firstNameInput.classList.add("is-invalid");
-      isValid = false;
-    } else {
-      firstNameInput.classList.remove("is-invalid");
-    }
-
-    // Validate last name
-    if (!lastNameInput.checkValidity()) {
-      lastNameInput.classList.add("is-invalid");
-      isValid = false;
-    } else {
-      lastNameInput.classList.remove("is-invalid");
-    }
-
-    // Validate birthday
-    if (!birthdayInput.checkValidity()) {
-      birthdayInput.classList.add("is-invalid");
-      isValid = false;
-    } else {
-      birthdayInput.classList.remove("is-invalid");
-    }
-
-    // Validate timezone
-    if (!timezoneInput.checkValidity()) {
-      timezoneInput.classList.add("is-invalid");
-      isValid = false;
-    } else {
-      timezoneInput.classList.remove("is-invalid");
-    }
-
-    if (!isValid) {
+    if (!validatePersonalInfo()) {
       e.preventDefault();
       e.stopPropagation();
       personalForm.classList.add("animate__animated", "animate__shakeX");
