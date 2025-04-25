@@ -392,7 +392,7 @@ bottom: 10px;
  width: 30px;
 }
 
-.auth-logo-text {
+.auth-logo p {
   font-size: 1.125rem;
   line-height: 1.75rem;
   color: #008a20;
