@@ -26,15 +26,22 @@ document.addEventListener("DOMContentLoaded", function () {
   const continueBtn = document.getElementById("continue-btn");
   const backBtn = document.getElementById("back-btn");
   const alertBanner = document.getElementById("alertBanner");
-  const signupForm = document.querySelector("#personal-info-form"); // This is now our main form
 
-  // Password fields
-  const passwordField = document.querySelector("#signup-password");
-  const passwordRepeatField = document.querySelector("#signup-password-repeat");
+  // Form inputs
+  const usernameInput = document.querySelector("#signup-username");
+  const passwordInput = document.querySelector("#signup-password");
+  const passwordRepeatInput = document.querySelector("#signup-password-repeat");
+  const firstNameInput = document.querySelector("#signup-firstname");
+  const lastNameInput = document.querySelector("#signup-lastname");
+  const birthdayInput = document.querySelector("#signup-birthday");
+  const timezoneInput = document.querySelector("#timezone");
+
+  // Main form that will be submitted
+  const signupForm = document.querySelector("#personal-info-form");
 
   // Validate passwords match
   function validatePasswords() {
-    const passwordsMatch = passwordField.value === passwordRepeatField.value;
+    const passwordsMatch = passwordInput.value === passwordRepeatInput.value;
     if (!passwordsMatch) {
       alertBanner.classList.remove("hidden");
       return false;
@@ -43,22 +50,43 @@ document.addEventListener("DOMContentLoaded", function () {
     return true;
   }
 
+  // Validate account information
+  function validateAccountInfo() {
+    let isValid = true;
+
+    // Validate username
+    if (!usernameInput.checkValidity()) {
+      usernameInput.classList.add("is-invalid");
+      isValid = false;
+    } else {
+      usernameInput.classList.remove("is-invalid");
+    }
+
+    // Validate password
+    if (!passwordInput.checkValidity()) {
+      passwordInput.classList.add("is-invalid");
+      isValid = false;
+    } else {
+      passwordInput.classList.remove("is-invalid");
+    }
+
+    // Validate password confirmation
+    if (!passwordRepeatInput.checkValidity() || !validatePasswords()) {
+      passwordRepeatInput.classList.add("is-invalid");
+      isValid = false;
+    } else {
+      passwordRepeatInput.classList.remove("is-invalid");
+    }
+
+    return isValid;
+  }
+
   // Handle continue to personal info
   continueBtn.addEventListener("click", function (e) {
     e.preventDefault();
 
-    // Validate account form
-    if (accountForm.checkValidity()) {
-      // Check if passwords match
-      if (!validatePasswords()) {
-        // Add shake animation to highlight error
-        accountForm.classList.add("animate__animated", "animate__shakeX");
-        setTimeout(() => {
-          accountForm.classList.remove("animate__animated", "animate__shakeX");
-        }, 1000);
-        return;
-      }
-
+    // Validate account information
+    if (validateAccountInfo()) {
       // Smooth transition to personal info form
       accountForm.classList.remove("active");
       accountForm.classList.add("prev");
@@ -69,11 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }, 50);
     } else {
       // Show validation errors with animation
-      accountForm.classList.add(
-        "was-validated",
-        "animate__animated",
-        "animate__shakeX"
-      );
+      accountForm.classList.add("animate__animated", "animate__shakeX");
       setTimeout(() => {
         accountForm.classList.remove("animate__animated", "animate__shakeX");
       }, 1000);
@@ -95,23 +119,53 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Handle final form submission
   signupForm.addEventListener("submit", function (e) {
-    // First validate the personal info form
-    if (!personalForm.checkValidity()) {
+    // First validate the personal info
+    let isValid = true;
+
+    // Validate first name
+    if (!firstNameInput.checkValidity()) {
+      firstNameInput.classList.add("is-invalid");
+      isValid = false;
+    } else {
+      firstNameInput.classList.remove("is-invalid");
+    }
+
+    // Validate last name
+    if (!lastNameInput.checkValidity()) {
+      lastNameInput.classList.add("is-invalid");
+      isValid = false;
+    } else {
+      lastNameInput.classList.remove("is-invalid");
+    }
+
+    // Validate birthday
+    if (!birthdayInput.checkValidity()) {
+      birthdayInput.classList.add("is-invalid");
+      isValid = false;
+    } else {
+      birthdayInput.classList.remove("is-invalid");
+    }
+
+    // Validate timezone
+    if (!timezoneInput.checkValidity()) {
+      timezoneInput.classList.add("is-invalid");
+      isValid = false;
+    } else {
+      timezoneInput.classList.remove("is-invalid");
+    }
+
+    if (!isValid) {
       e.preventDefault();
       e.stopPropagation();
-      personalForm.classList.add(
-        "was-validated",
-        "animate__animated",
-        "animate__shakeX"
-      );
+      personalForm.classList.add("animate__animated", "animate__shakeX");
       setTimeout(() => {
         personalForm.classList.remove("animate__animated", "animate__shakeX");
       }, 1000);
       return;
     }
 
-    // Then validate passwords again (in case user went back and changed them)
-    if (!validatePasswords()) {
+    // Then validate account info again (in case user went back and changed them)
+    if (!validateAccountInfo()) {
       e.preventDefault();
       e.stopPropagation();
 
@@ -121,11 +175,7 @@ document.addEventListener("DOMContentLoaded", function () {
       accountForm.classList.add("active");
 
       // Show error and animate
-      accountForm.classList.add(
-        "was-validated",
-        "animate__animated",
-        "animate__shakeX"
-      );
+      accountForm.classList.add("animate__animated", "animate__shakeX");
       setTimeout(() => {
         accountForm.classList.remove("animate__animated", "animate__shakeX");
       }, 1000);
@@ -133,14 +183,30 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // If all validations pass, form will submit normally
-    personalForm.classList.add("was-validated");
   });
 
   // Real-time password matching validation
-  [passwordField, passwordRepeatField].forEach((field) => {
+  [passwordInput, passwordRepeatInput].forEach((field) => {
     field.addEventListener("input", function () {
-      if (passwordField.value && passwordRepeatField.value) {
+      if (passwordInput.value && passwordRepeatInput.value) {
         validatePasswords();
+      }
+    });
+  });
+
+  // Real-time validation for other fields
+  [
+    usernameInput,
+    passwordInput,
+    passwordRepeatInput,
+    firstNameInput,
+    lastNameInput,
+    birthdayInput,
+    timezoneInput,
+  ].forEach((input) => {
+    input.addEventListener("input", function () {
+      if (this.checkValidity()) {
+        this.classList.remove("is-invalid");
       }
     });
   });
