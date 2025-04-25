@@ -87,6 +87,19 @@ label {
     display: block;
     object-fit: contain; */
 }
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-text {
+  font-size: 1.125rem;
+    line-height: 1.75rem ;
+    font-weight: 600;
+}
+
 .navbar-top {
   background-color: white;
   min-height: 80px;
@@ -314,6 +327,12 @@ bottom: 10px;
   width: 45%;
   padding: 2rem 5rem;
   overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.auth-form-section::-webkit-scrollbar {
+  display: none;
 }
 
 .auth-hero-section {
@@ -332,18 +351,23 @@ bottom: 10px;
 /* Different background images for login/signup */
 .login-page .auth-hero-section {
   background: linear-gradient(
-      rgba(0, 60, 20, 0.9) 100%,
-      rgba(217, 217, 217, 0) 100%
-    ),
+    to bottom,
+    rgba(255, 255, 255, 0.7) 0%,
+    rgba(255, 255, 255, 0.3) 20%,
+    rgba(0, 0, 0, 0.5) 60%,
+    rgba(0, 0, 0, 0.8) 100%
+  ),
     url("https://res.cloudinary.com/okorosamuel/image/upload/v1702932493/Hermes/goodness_kpa1ln.jpg");
 }
 
 .signup-page .auth-hero-section {
   background: linear-gradient(
-      to bottom,
-      rgba(0, 100, 32, 0.85) 0%,
-      rgba(0, 60, 20, 0.9) 100%
-    ),
+    to bottom,
+    rgba(255, 255, 255, 0.7) 0%,
+    rgba(255, 255, 255, 0.3) 20%,
+    rgba(0, 0, 0, 0.5) 60%,
+    rgba(0, 0, 0, 0.8) 100%
+  ),
     url("https://res.cloudinary.com/okorosamuel/image/upload/v1704098732/Hermes/e974686b7fcbe0420e9749cfbd66195e.jpg");
 }
 
