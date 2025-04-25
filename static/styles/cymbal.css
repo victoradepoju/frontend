@@ -357,7 +357,7 @@ bottom: 10px;
     rgba(0, 0, 0, 0.5) 60%,
     rgba(0, 0, 0, 0.8) 100%
   ),
-    url("https://res.cloudinary.com/okorosamuel/image/upload/v1702932493/Hermes/goodness_kpa1ln.jpg");
+    url("/static/img/fine-paying-girl.jpeg");
 }
 
 .signup-page .auth-hero-section {
@@ -368,7 +368,7 @@ bottom: 10px;
     rgba(0, 0, 0, 0.5) 60%,
     rgba(0, 0, 0, 0.8) 100%
   ),
-    url("https://res.cloudinary.com/okorosamuel/image/upload/v1704098732/Hermes/e974686b7fcbe0420e9749cfbd66195e.jpg");
+    url("/static/img/young-man.jpeg");
 }
 
 .auth-logo {
