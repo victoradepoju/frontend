@@ -96,8 +96,8 @@ label {
 
 .logo-text {
   font-size: 1.125rem;
-    line-height: 1.75rem ;
-    font-weight: 600;
+  line-height: 1.75rem;
+  font-weight: 600;
 }
 
 .navbar-top {
@@ -351,32 +351,38 @@ bottom: 10px;
 /* Different background images for login/signup */
 .login-page .auth-hero-section {
   background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.7) 0%,
-    rgba(255, 255, 255, 0.3) 20%,
-    rgba(0, 0, 0, 0.5) 60%,
-    rgba(0, 0, 0, 0.8) 100%
-  ),
-    url("/static/img/fine-paying-girl.jpeg");
+      to bottom,
+      rgba(255, 255, 255, 0.8) 0%,
+      rgba(255, 255, 255, 0.4) 15%,
+      rgba(0, 0, 0, 0.4) 40%,
+      rgba(0, 0, 0, 0.75) 100%
+    ),
+    url("/static/img/young-man.jpeg") center/cover no-repeat;
+  background-position: center;
+  background-size: cover;
+  transition: all 0.3s ease;
 }
 
 .signup-page .auth-hero-section {
   background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.7) 0%,
-    rgba(255, 255, 255, 0.3) 20%,
-    rgba(0, 0, 0, 0.5) 60%,
-    rgba(0, 0, 0, 0.8) 100%
-  ),
-    url("/static/img/young-man.jpeg");
+      to bottom,
+      rgba(255, 255, 255, 0.8) 0%,
+      rgba(255, 255, 255, 0.4) 15%,
+      rgba(0, 0, 0, 0.4) 40%,
+      rgba(0, 0, 0, 0.75) 100%
+    ),
+    url("/static/img/young-man.jpeg") center/cover no-repeat;
+  background-position: center;
+  background-size: cover;
+  transition: all 0.3s ease;
 }
 
 .auth-logo {
-  align-self: flex-end;
-  max-width: 180px;
-  margin-bottom: 2rem;
-  position: relative;
   z-index: 1;
+  display: flex;
+  width: 100%;
+  align-items: flex-end;
+  font-weight: 600;
 }
 
 .testimonial {
