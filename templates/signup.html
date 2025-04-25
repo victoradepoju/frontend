@@ -1,26 +1,10 @@
-<!--
-Copyright 2020 Google LLC
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    https://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
 <html lang="en">
   <head>
     {% include 'shared/html_head.html' %}
   </head>
-  <body>
+  <body class="signup-page">
     {% include 'shared/platform_banner.html' %}
-
+    
     <div class="auth-container">
       <!-- Form Section -->
       <div class="auth-form-section">
@@ -28,46 +12,24 @@ limitations under the License.
           <h2 class="header-title">Create Your Account</h2>
           <p class="text-muted">Join thousands of happy customers</p>
         </div>
-
+        
         <div class="card">
           <div class="card-body">
-            <div class="form-container">
+            <div class="form-step-container">
               <!-- Account Information Form -->
-              <div id="account-info-form" class="form-section active">
+              <form id="account-info-form" class="form-step active">
                 <h4 class="mb-4">Account Information</h4>
-                <div
-                  id="alertBanner"
-                  class="alert alert-danger mb-4 hidden"
-                  role="alert"
-                >
-                  <span class="alert-icon mr-2 material-icons error-icon"
-                    >error</span
-                  >Passwords don't match. Please try again.
+                <div id="alertBanner" class="alert alert-danger mb-4 hidden" role="alert">
+                  <span class="alert-icon mr-2 material-icons error-icon">error</span>Passwords don't match. Please try again.
                 </div>
-
+                
                 <div class="mb-4">
-                  <label
-                    class="text-uppercase text-muted secondary-text"
-                    for="username"
-                    >Username</label
-                  >
+                  <label class="text-uppercase text-muted secondary-text" for="username">Username</label>
                   <div class="input-group mt-2">
                     <div class="input-group-prepend mr-2">
-                      <span class="input-group-text"
-                        ><span class="material-icons"
-                          >account_circle</span
-                        ></span
-                      >
+                      <span class="input-group-text"><span class="material-icons">account_circle</span></span>
                     </div>
-                    <input
-                      class="form-control"
-                      type="text"
-                      id="signup-username"
-                      name="username"
-                      autocomplete="off"
-                      pattern="([a-zA-Z0-9_]){2,15}"
-                      required
-                    />
+                    <input class="form-control" type="text" id="signup-username" name="username" autocomplete="off" pattern="([a-zA-Z0-9_]){2,15}" required>
                     <div class="invalid-feedback">
                       Please enter a valid username (2-15 alphanumeric chars).
                     </div>
@@ -75,109 +37,55 @@ limitations under the License.
                 </div>
 
                 <div class="mb-4">
-                  <label
-                    class="text-uppercase text-muted secondary-text"
-                    for="password"
-                    >Password</label
-                  >
+                  <label class="text-uppercase text-muted secondary-text" for="password">Password</label>
                   <div class="input-group mt-2">
                     <div class="input-group-prepend mr-2">
-                      <span class="input-group-text"
-                        ><span class="material-icons">lock</span></span
-                      >
+                      <span class="input-group-text"><span class="material-icons">lock</span></span>
                     </div>
-                    <input
-                      class="form-control"
-                      type="password"
-                      id="signup-password"
-                      name="password"
-                      autocomplete="off"
-                      required
-                    />
-                    <div class="invalid-feedback">Please enter a password.</div>
+                    <input class="form-control" type="password" id="signup-password" name="password" autocomplete="off" required>
+                    <div class="invalid-feedback">
+                      Please enter a password.
+                    </div>
                   </div>
                 </div>
 
                 <div class="mb-4">
-                  <label
-                    class="text-uppercase text-muted secondary-text"
-                    for="password-repeat"
-                    >Confirm Password</label
-                  >
+                  <label class="text-uppercase text-muted secondary-text" for="password-repeat">Confirm Password</label>
                   <div class="input-group mt-2">
                     <div class="input-group-prepend mr-2">
-                      <span class="input-group-text"
-                        ><span class="material-icons">lock</span></span
-                      >
+                      <span class="input-group-text"><span class="material-icons">lock</span></span>
                     </div>
-                    <input
-                      class="form-control"
-                      type="password"
-                      id="signup-password-repeat"
-                      name="password-repeat"
-                      autocomplete="off"
-                      required
-                    />
+                    <input class="form-control" type="password" id="signup-password-repeat" name="password-repeat" autocomplete="off" required>
                     <div class="invalid-feedback">
                       Please confirm your password.
                     </div>
                   </div>
                 </div>
-
+                
                 <div class="form-navigation">
                   <a href="/login" class="btn btn-secondary">
-                    <span class="mr-2 material-icons arrow-back"
-                      >arrow_back</span
-                    >Back to Login
+                    <span class="mr-2 material-icons arrow-back">arrow_back</span>Back to Login
                   </a>
-                  <button
-                    type="button"
-                    class="btn btn-primary"
-                    id="continue-btn"
-                  >
-                    Continue
-                  </button>
+                  <button type="button" class="btn btn-primary" id="continue-btn">Continue</button>
                 </div>
-              </div>
-
+              </form>
+              
               <!-- Personal Information Form -->
-              <div id="personal-info-form" class="form-section">
+              <form id="personal-info-form" class="form-step" method="POST" action="/signup">
                 <h4 class="mb-4">Personal Information</h4>
-                <p class="mb-4 text-muted">
-                  Some fields are read-only for this demo for security purposes.
-                </p>
-
+                <p class="mb-4 text-muted">Some fields are read-only for this demo for security purposes.</p>
+                
                 <div class="row mb-4">
                   <div class="col-md-6">
-                    <label
-                      class="text-uppercase text-muted secondary-text"
-                      for="firstname"
-                      >First name</label
-                    >
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="signup-firstname"
-                      name="firstname"
-                      required
-                    />
+                    <label class="text-uppercase text-muted secondary-text" for="firstname">First name</label>
+                    <input type="text" class="form-control" id="signup-firstname" name="firstname" required>
                     <div class="invalid-feedback">
                       Valid first name is required.
                     </div>
                   </div>
                   <div class="col-md-6">
-                    <label
-                      class="text-uppercase text-muted secondary-text"
-                      for="lastname"
-                      >Last name</label
-                    >
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="signup-lastname"
-                      name="lastname"
-                      required
-                    />
+                    <label class="text-uppercase text-muted secondary-text" for="lastname">Last name</label>
+                    <input type="text" class="form-control" id="signup-lastname" name="lastname" required>
                     <div class="invalid-feedback">
                       Valid last name is required.
                     </div>
@@ -185,100 +93,37 @@ limitations under the License.
                 </div>
 
                 <div class="mb-4">
-                  <label
-                    class="text-uppercase text-muted secondary-text"
-                    for="address"
-                    >Address</label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="address"
-                    name="address"
-                    value="123 Nth Avenue, New York City"
-                    readonly
-                  />
+                  <label class="text-uppercase text-muted secondary-text" for="address">Address</label>
+                  <input type="text" class="form-control" id="address" name="address" value="123 Nth Avenue, New York City" readonly>
                 </div>
 
                 <div class="row mb-4">
                   <div class="col-md-5">
-                    <label
-                      class="text-uppercase text-muted secondary-text"
-                      for="country"
-                      >Country</label
-                    >
-                    <select
-                      class="custom-select d-block w-100"
-                      id="country"
-                      name="country"
-                      readonly
-                    >
+                    <label class="text-uppercase text-muted secondary-text" for="country">Country</label>
+                    <select class="custom-select d-block w-100" id="country" name="country" readonly>
                       <option selected>United States</option>
                     </select>
                   </div>
                   <div class="col-md-4">
-                    <label
-                      class="text-uppercase text-muted secondary-text"
-                      for="state"
-                      >State</label
-                    >
-                    <select
-                      class="custom-select d-block w-100"
-                      id="state"
-                      name="state"
-                      readonly
-                    >
-                      <!-- State options remain the same -->
+                    <label class="text-uppercase text-muted secondary-text" for="state">State</label>
+                    <select class="custom-select d-block w-100" id="state" name="state" readonly>
                       <option selected value="NY">New York</option>
                     </select>
                   </div>
                   <div class="col-md-3">
-                    <label
-                      class="text-uppercase text-muted secondary-text"
-                      for="zip"
-                      >Zip</label
-                    >
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="zip"
-                      name="zip"
-                      value="10004"
-                      readonly
-                    />
+                    <label class="text-uppercase text-muted secondary-text" for="zip">Zip</label>
+                    <input type="text" class="form-control" id="zip" name="zip" value="10004" readonly>
                   </div>
                 </div>
 
                 <div class="row mb-4">
                   <div class="col-md-6">
-                    <label
-                      class="text-uppercase text-muted secondary-text"
-                      for="social"
-                      >SSN</label
-                    >
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="ssn"
-                      name="ssn"
-                      value="111-22-3333"
-                      readonly
-                    />
+                    <label class="text-uppercase text-muted secondary-text" for="social">SSN</label>
+                    <input type="text" class="form-control" id="ssn" name="ssn" value="111-22-3333" readonly>
                   </div>
                   <div class="col-md-6">
-                    <label
-                      class="text-uppercase text-muted secondary-text"
-                      for="birthday"
-                      >Birthday</label
-                    >
-                    <input
-                      type="date"
-                      class="form-control"
-                      id="signup-birthday"
-                      name="birthday"
-                      min="1900-01-01"
-                      required
-                    />
+                    <label class="text-uppercase text-muted secondary-text" for="birthday">Birthday</label>
+                    <input type="date" class="form-control" id="signup-birthday" name="birthday" min="1900-01-01" required>
                     <div class="invalid-feedback">
                       Valid birthday is required.
                     </div>
@@ -286,59 +131,37 @@ limitations under the License.
                 </div>
 
                 <div class="mb-4">
-                  <label
-                    class="text-uppercase text-muted secondary-text"
-                    for="timezone"
-                    >Timezone</label
-                  >
-                  <select
-                    class="custom-select d-block w-100"
-                    id="timezone"
-                    name="timezone"
-                    required
-                  >
-                    <!-- Timezone options remain the same -->
-                    <option selected value="-5">
-                      (GMT-05:00) Eastern Time (US & Canada)
-                    </option>
+                  <label class="text-uppercase text-muted secondary-text" for="timezone">Timezone</label>
+                  <select class="custom-select d-block w-100" id="timezone" name="timezone" required>
+                    <option selected value="-5">(GMT-05:00) Eastern Time (US & Canada)</option>
                   </select>
                 </div>
-
+                
                 <div class="form-navigation">
                   <button type="button" class="btn btn-secondary" id="back-btn">
-                    <span class="mr-2 material-icons arrow-back"
-                      >arrow_back</span
-                    >Back
+                    <span class="mr-2 material-icons arrow-back">arrow_back</span>Back
                   </button>
-                  <button type="submit" class="btn btn-primary">Sign Up</button>
+                  <button type="submit" class="btn btn-primary">Complete Registration</button>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
         </div>
       </div>
-
+      
       <!-- Hero Section -->
       <div class="auth-hero-section">
-        <img
-          src="static/images/cymbal-logo.png"
-          alt="Cymbal Logo"
-          class="auth-logo"
-        />
-
+        <img src="static/images/cymbal-logo.png" alt="Cymbal Logo" class="auth-logo">
+        
         <div class="testimonial">
-          <p class="testimonial-text">
-            "Opening an account with Cymbal Bank was the easiest banking
-            experience I've ever had. The entire process took less than 5
-            minutes and I was able to start using my account immediately."
-          </p>
+          <p class="testimonial-text">"Opening an account with Cymbal Bank was the easiest banking experience I've ever had. Highly recommended!"</p>
           <p class="testimonial-author">- Michael Chen, Freelancer</p>
         </div>
       </div>
     </div>
-
-    {% include 'shared/footer.html' %} {% include 'shared/scripts.html' %}
-
+    
+    {% include 'shared/footer.html' %}
+    {% include 'shared/scripts.html' %}
     <script src="static/scripts/signup.js"></script>
   </body>
 </html>
