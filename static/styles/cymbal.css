@@ -302,28 +302,22 @@ bottom: 10px;
 }
 
 /* AUTH PAGES SPECIFIC STYLES */
+/* AUTH PAGES SPECIFIC STYLES */
 .auth-container {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
   background-color: #ffffff;
+  overflow: hidden;
 }
 
 .auth-form-section {
   width: 45%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   padding: 2rem 5rem;
+  overflow-y: auto;
 }
 
 .auth-hero-section {
   width: 55%;
-  background: linear-gradient(
-      to bottom,
-      rgba(0, 100, 32, 0.85) 0%,
-      rgba(0, 60, 20, 0.9) 100%
-    ),
-    url("https://res.cloudinary.com/okorosamuel/image/upload/v1702932493/Hermes/goodness_kpa1ln.jpg");
   background-size: cover;
   background-position: center;
   display: flex;
@@ -332,21 +326,22 @@ bottom: 10px;
   padding: 3rem;
   color: white;
   position: relative;
+  overflow: hidden;
 }
 
-.auth-hero-section::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(0, 138, 32, 0.8) 0%,
-    rgba(0, 70, 20, 0.9) 100%
-  );
-  z-index: 0;
+/* Different background images for login/signup */
+.login-page .auth-hero-section {
+  background: linear-gradient(to bottom, 
+               rgba(0, 100, 32, 0.85) 0%, 
+               rgba(0, 60, 20, 0.9) 100%),
+              url('https://res.cloudinary.com/okorosamuel/image/upload/v1702932493/Hermes/goodness_kpa1ln.jpg');
+}
+
+.signup-page .auth-hero-section {
+  background: linear-gradient(to bottom, 
+               rgba(0, 100, 32, 0.85) 0%, 
+               rgba(0, 60, 20, 0.9) 100%),
+              url('https://res.cloudinary.com/okorosamuel/image/upload/v1704098732/Hermes/e974686b7fcbe0420e9749cfbd66195e.jpg');
 }
 
 .auth-logo {
@@ -377,42 +372,17 @@ bottom: 10px;
 
 .testimonial-author {
   font-weight: 600;
-  color: #008a20;
+  color: #008A20;
 }
 
-/* Form transitions */
-.form-container {
-  position: relative;
-  overflow: hidden;
-  min-height: 600px;
+/* Form container */
+.auth-form-section .card {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
 }
 
-.form-section {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  opacity: 0;
-  transform: translateX(20px);
-  visibility: hidden;
-}
-
-.form-section.active {
-  opacity: 1;
-  transform: translateX(0);
-  visibility: visible;
-}
-
-.form-section.next {
-  transform: translateX(20px);
-}
-
-.form-section.prev {
-  transform: translateX(-20px);
-}
-
-/* Form navigation */
+/* Form navigation buttons */
 .form-navigation {
   display: flex;
   justify-content: space-between;
@@ -421,20 +391,46 @@ bottom: 10px;
   border-top: 1px solid #e0e0e0;
 }
 
+.form-navigation .btn {
+  min-width: 160px;
+}
+
+/* Form steps */
+.form-step-container {
+  position: relative;
+  min-height: 500px;
+}
+
+.form-step {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transition: all 0.4s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.form-step.active {
+  position: relative;
+  opacity: 1;
+  pointer-events: all;
+}
+
 /* Responsive adjustments */
 @media (max-width: 992px) {
   .auth-container {
     flex-direction: column;
   }
-
-  .auth-form-section,
-  .auth-hero-section {
+  
+  .auth-form-section {
     width: 100%;
     padding: 2rem;
+    height: auto;
   }
-
+  
   .auth-hero-section {
-    min-height: 300px;
+    display: none;
   }
 }
 
