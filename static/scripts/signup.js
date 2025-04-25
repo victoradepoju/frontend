@@ -14,47 +14,43 @@
  * limitations under the License.
  */
 
-// Sign-up validation
-document.addEventListener("DOMContentLoaded", function (e) {
-  var form = document.querySelector("#signup-form");
-  // Add max attribute to birthday input
-  var today = new Date();
-  var maxDate = today.toISOString().split("T")[0];
+document.addEventListener("DOMContentLoaded", function () {
+  // Set max date for birthday input
+  const today = new Date();
+  const maxDate = today.toISOString().split("T")[0];
   document.querySelector("#signup-birthday").setAttribute("max", maxDate);
 
+  // Form elements
   const accountForm = document.getElementById("account-info-form");
   const personalForm = document.getElementById("personal-info-form");
   const continueBtn = document.getElementById("continue-btn");
   const backBtn = document.getElementById("back-btn");
+  const alertBanner = document.getElementById("alertBanner");
+  const signupForm = document.querySelector("#personal-info-form"); // This is now our main form
 
-  // Add submit listener to signup form
-  form.addEventListener("submit", function (event) {
-    var passwordsMatch =
-      document.querySelector("#signup-password").value ==
-      document.querySelector("#signup-password-repeat").value;
-    if (!form.checkValidity() || !passwordsMatch) {
-      event.preventDefault();
-      event.stopPropagation();
-      if (!passwordsMatch)
-        document.querySelector("#alertBanner").classList.remove("hidden");
-      window.scrollTo({ top: 0, behavior: "auto" });
+  // Password fields
+  const passwordField = document.querySelector("#signup-password");
+  const passwordRepeatField = document.querySelector("#signup-password-repeat");
+
+  // Validate passwords match
+  function validatePasswords() {
+    const passwordsMatch = passwordField.value === passwordRepeatField.value;
+    if (!passwordsMatch) {
+      alertBanner.classList.remove("hidden");
+      return false;
     }
-    form.classList.add("was-validated");
-  });
+    alertBanner.classList.add("hidden");
+    return true;
+  }
 
+  // Handle continue to personal info
   continueBtn.addEventListener("click", function (e) {
     e.preventDefault();
 
-    // Validate account form before proceeding
-    if (true) {
+    // Validate account form
+    if (accountForm.checkValidity()) {
       // Check if passwords match
-      const password = document.getElementById("signup-password").value;
-      const passwordRepeat = document.getElementById(
-        "signup-password-repeat"
-      ).value;
-
-      if (password !== passwordRepeat) {
-        document.getElementById("alertBanner").classList.remove("hidden");
+      if (!validatePasswords()) {
         // Add shake animation to highlight error
         accountForm.classList.add("animate__animated", "animate__shakeX");
         setTimeout(() => {
@@ -62,9 +58,6 @@ document.addEventListener("DOMContentLoaded", function (e) {
         }, 1000);
         return;
       }
-
-      // Hide password mismatch alert if shown
-      document.getElementById("alertBanner").classList.add("hidden");
 
       // Smooth transition to personal info form
       accountForm.classList.remove("active");
@@ -87,6 +80,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
     }
   });
 
+  // Handle back to account info
   backBtn.addEventListener("click", function (e) {
     e.preventDefault();
 
@@ -99,8 +93,9 @@ document.addEventListener("DOMContentLoaded", function (e) {
     }, 50);
   });
 
-  // Handle form submission
-  personalForm.addEventListener("submit", function (e) {
+  // Handle final form submission
+  signupForm.addEventListener("submit", function (e) {
+    // First validate the personal info form
     if (!personalForm.checkValidity()) {
       e.preventDefault();
       e.stopPropagation();
@@ -112,6 +107,41 @@ document.addEventListener("DOMContentLoaded", function (e) {
       setTimeout(() => {
         personalForm.classList.remove("animate__animated", "animate__shakeX");
       }, 1000);
+      return;
     }
+
+    // Then validate passwords again (in case user went back and changed them)
+    if (!validatePasswords()) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      // Switch back to account form to show error
+      personalForm.classList.remove("active");
+      accountForm.classList.remove("prev");
+      accountForm.classList.add("active");
+
+      // Show error and animate
+      accountForm.classList.add(
+        "was-validated",
+        "animate__animated",
+        "animate__shakeX"
+      );
+      setTimeout(() => {
+        accountForm.classList.remove("animate__animated", "animate__shakeX");
+      }, 1000);
+      return;
+    }
+
+    // If all validations pass, form will submit normally
+    personalForm.classList.add("was-validated");
+  });
+
+  // Real-time password matching validation
+  [passwordField, passwordRepeatField].forEach((field) => {
+    field.addEventListener("input", function () {
+      if (passwordField.value && passwordRepeatField.value) {
+        validatePasswords();
+      }
+    });
   });
 });
