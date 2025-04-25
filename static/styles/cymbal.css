@@ -308,7 +308,166 @@ bottom: 10px;
   display: none;
 }
 
+/* AUTH PAGES SPECIFIC STYLES */
+.auth-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #ffffff;
+}
 
+.auth-form-section {
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem 5rem;
+}
+
+.auth-hero-section {
+  width: 55%;
+  background: linear-gradient(rgba(0, 138, 32, 0.8), rgba(0, 138, 32, 0.8)), 
+              url('https://res.cloudinary.com/okorosamuel/image/upload/v1702932493/Hermes/goodness_kpa1ln.jpg');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 3rem;
+  color: white;
+}
+
+.auth-logo {
+  align-self: flex-end;
+  max-width: 180px;
+  margin-bottom: 2rem;
+}
+
+.testimonial {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 2rem;
+  border-radius: 10px;
+  color: #343434;
+  margin-top: auto;
+}
+
+.testimonial-text {
+  font-style: italic;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.testimonial-author {
+  font-weight: 600;
+}
+
+/* Form steps */
+.form-steps {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.form-steps::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #e0e0e0;
+  z-index: 1;
+}
+
+.step {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #e0e0e0;
+  color: #888;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+  font-weight: 600;
+}
+
+.step.active {
+  background: #008A20;
+  color: white;
+}
+
+.step.completed {
+  background: #A3FD8C;
+  color: #008A20;
+}
+
+.step-label {
+  position: absolute;
+  top: 45px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.step.active .step-label,
+.step.completed .step-label {
+  color: #008A20;
+}
+
+/* Form transitions */
+.form-step-container {
+  position: relative;
+  overflow: hidden;
+  min-height: 500px;
+}
+
+.form-step {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transition: transform 0.3s ease-in-out;
+}
+
+.form-step.next {
+  transform: translateX(100%);
+}
+
+.form-step.prev {
+  transform: translateX(-100%);
+}
+
+.form-step.active {
+  transform: translateX(0);
+}
+
+/* Navigation buttons */
+.form-navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .auth-container {
+    flex-direction: column;
+  }
+  
+  .auth-form-section,
+  .auth-hero-section {
+    width: 100%;
+    padding: 2rem;
+  }
+  
+  .auth-hero-section {
+    min-height: 300px;
+  }
+}
 
 
 /* BUTTONS */
