@@ -331,17 +331,20 @@ bottom: 10px;
 
 /* Different background images for login/signup */
 .login-page .auth-hero-section {
-  background: linear-gradient(to bottom, 
-               rgba(0, 100, 32, 0.85) 0%, 
-               rgba(0, 60, 20, 0.9) 100%),
-              url('https://res.cloudinary.com/okorosamuel/image/upload/v1702932493/Hermes/goodness_kpa1ln.jpg');
+  background: linear-gradient(
+      rgba(0, 60, 20, 0.9) 100%,
+      rgba(217, 217, 217, 0) 100%
+    ),
+    url("https://res.cloudinary.com/okorosamuel/image/upload/v1702932493/Hermes/goodness_kpa1ln.jpg");
 }
 
 .signup-page .auth-hero-section {
-  background: linear-gradient(to bottom, 
-               rgba(0, 100, 32, 0.85) 0%, 
-               rgba(0, 60, 20, 0.9) 100%),
-              url('https://res.cloudinary.com/okorosamuel/image/upload/v1704098732/Hermes/e974686b7fcbe0420e9749cfbd66195e.jpg');
+  background: linear-gradient(
+      to bottom,
+      rgba(0, 100, 32, 0.85) 0%,
+      rgba(0, 60, 20, 0.9) 100%
+    ),
+    url("https://res.cloudinary.com/okorosamuel/image/upload/v1704098732/Hermes/e974686b7fcbe0420e9749cfbd66195e.jpg");
 }
 
 .auth-logo {
@@ -372,7 +375,7 @@ bottom: 10px;
 
 .testimonial-author {
   font-weight: 600;
-  color: #008A20;
+  color: #008a20;
 }
 
 /* Form container */
@@ -422,13 +425,13 @@ bottom: 10px;
   .auth-container {
     flex-direction: column;
   }
-  
+
   .auth-form-section {
     width: 100%;
     padding: 2rem;
     height: auto;
   }
-  
+
   .auth-hero-section {
     display: none;
   }
