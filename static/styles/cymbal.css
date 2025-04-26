@@ -672,10 +672,11 @@ input {
   margin-right: 15px;
 }
 
-.doenload-trans-container {
+.download-trans-container {
   display: flex;
   align-items: center;
   gap: 10px;
+  width: 100%;
 }
 
 #reportrange {
