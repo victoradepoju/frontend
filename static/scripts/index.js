@@ -22,15 +22,15 @@ document.addEventListener("DOMContentLoaded", function (event) {
     document.querySelector("#external_account_num").required = isNewAcct;
     document.querySelector("#external_routing_num").required = isNewAcct;
 
-    const initialDeposit = document.querySelector("#init-balance").value;
+    const initialBalance = document.querySelector("#init-balance").value;
 
     const exchangeRates = {
       NGN: 1,
-      USD: 0.00065, // 1 NGN = 0.00065 USD
-      EUR: 0.0006, // 1 NGN = 0.00060 EUR
-      GBP: 0.00052, // 1 NGN = 0.00052 GBP
-      JPY: 0.098, // 1 NGN = 0.098 JPY
-      CNY: 0.0047, // 1 NGN = 0.0047 CNY
+      USD: 0.00065, 
+      EUR: 0.0006, 
+      GBP: 0.00052, 
+      JPY: 0.098,
+      CNY: 0.0047, 
     };
 
     const currencySymbols = {
