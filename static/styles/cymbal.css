@@ -676,14 +676,13 @@ input {
   display: flex;
   align-items: center;
   gap: 10px;
-  width: 100%;
 }
 
 #reportrange {
   background: #fff;
   cursor: pointer;
-  padding: 5px 10px;
-  border: 1px solid #ccc;
+  padding: 10px;
+  border: 1px solid #006200;
   width: 100%;
 }
 
@@ -713,4 +712,10 @@ input {
   display: flex;
   gap: 5px;
   align-items: center;
+}
+
+.download-button {
+  font-size: 10px;
+  padding:  10px;
+
 }
