@@ -14,783 +14,659 @@
  * limitations under the License.
  */
 
- html,
- body {
-   font-family: "Roboto", sans-serif !important;
-   font-size: 1.1rem;
-   margin: 0;
-   padding: 0;
-   background-color: #ffffff !important;
- }
- p {
-   margin-bottom: 0rem !important;
- }
- small {
-   font-size: 0.9rem;
- }
- .pop-up-label {
-   font-size: 24px;
-   font-weight: 500;
-   color: #343434;
- }
- label {
-   font-size: 0.9rem;
- }
- 
- /* MATERIAL ICONS */
- .material-icons {
-   color: #008a20;
-   vertical-align: middle !important;
- }
- .button-icon {
-   font-size: 24px;
-   color: #008a20;
- }
- .money-icon {
-   font-size: 24px;
-   color: #008a20;
- }
- .modal-icon {
-   font-size: 18px !important;
-   margin-right: 8px;
-   width: 18px;
-   color: #008a20;
- }
- .arrow-back {
-   font-size: 15px;
-   color: #008a20;
- }
- #deposit-icon {
-   color: white !important;
-   vertical-align: middle !important;
- }
- #payment-icon {
-   color: white !important;
-   vertical-align: middle !important;
- }
- 
- /* TOP NAVIGATION  */
- .header {
-   margin-bottom: 2rem;
- }
- 
- .header-title,
- .card-header-title {
-   font-weight: 500;
-   color: #343434;
- }
- #cymbal-logo {
-   max-width: 80%;
-   max-height: 80%;
-   vertical-align: middle;
- }
- 
- .logo {
-   display: flex;
-   align-items: center;
-   gap: 8px;
- }
- 
- .logo-text {
-   font-size: 1.125rem;
-   line-height: 1.75rem;
-   font-weight: 600;
- }
- 
- .navbar-top {
-   background-color: white;
-   min-height: 80px;
-   color: white;
-   position: relative;
- }
- .nav-item {
-   font-size: 24px !important;
-   margin: auto;
-   margin-left: 20px;
- }
- .nav-link {
-   color: #343434;
-   text-transform: none !important;
-   font-size: 1rem !important;
- }
- .navbar-brand {
-   font-weight: 700;
-   font-size: 1.5rem !important;
-   letter-spacing: -0.04em !important;
-   color: #000000 !important;
- }
- .nav-link i {
-   font-size: 20px;
- }
- .nav-link:hover {
-   color: #343434;
-   transition: all 0.2s ease-in;
- }
- #account-user-name {
-   font-weight: 500;
-   font-size: 1.1rem;
-   color: #000101;
- }
- .account-user-avatar {
-   margin-right: 5px;
- }
- #logout-form a:hover {
-   cursor: pointer;
- }
- .fa-icon-spacer {
-   margin-left: 8px;
- }
- .header-body {
-   padding-top: 1.5rem;
- }
- 
- #popup {
-   top: 0;
-   bottom: 100px;
-   position: absolute;
- }
- 
- /* FOOTER */
- .footer {
-   color: #343434;
-   background-color: white;
-   border-top: 2px solid #f8f8f8;
-   bottom: 0;
-   padding: 20px 24px 20px;
-   right: 0;
- }
- 
- /* CARDS */
- .card {
-   color: #343434;
-   background-color: #f8f8f8;
-   margin-bottom: 1.5rem;
-   border-radius: 10px;
-   -webkit-box-shadow: none !important;
-   -moz-box-shadow: none !important;
-   box-shadow: none !important;
- }
- .card-icon {
-   font-size: 36px !important;
-   color: #a3fd8c;
- }
- 
- /* ACCOUNT HOME */
- .account-info {
-   font-size: 20px;
-   margin-top: auto;
-   margin-bottom: auto;
- }
- 
- .account-overview {
-   margin-right: 5px;
-   font-size: 24px;
- }
- .account-icon {
-   vertical-align: middle !important;
- }
- 
- .account-num-text {
-   font-weight: 600;
-   margin-right: 8px;
-   vertical-align: middle !important;
-   display: inline-block !important;
- }
- .account-number {
-   font-weight: 200;
-   vertical-align: middle !important;
-   display: inline-block !important;
- }
- 
- /* TRANSACTION TABLE */
- .card-table {
-   margin-bottom: 0 !important;
- }
- .card-table tbody td:first-child,
- .card-table thead th:first-child {
-   padding-left: 1.5rem !important;
- }
- .card-table-header {
-   padding: 1.5rem 1.5rem;
-   margin-bottom: 0;
-   background-color: transparent;
- }
- .table-sm td,
- .table-sm th {
-   padding: 1.1rem !important;
- }
- .table td {
-   vertical-align: middle !important;
-   font-size: 1.05rem !important;
- }
- .table thead th {
-   color: #343434;
-   text-transform: uppercase;
-   font-weight: 600;
-   letter-spacing: 0.08em;
-   border-bottom-width: 1px;
- }
- .table [data-sort]::after {
-   margin-left: 0.25rem;
- }
- .list tr:hover {
-   transition: all 0.3s ease-in;
- }
- .text-credit {
-   color: #ff0000;
- }
- .text-debit {
-   color: #008a20;
- }
- .transaction-amount {
-   text-align: right !important;
- }
- .transaction-amount-credit {
-   color: #008a20;
- }
- .transaction-amount-debit {
-   color: #ff0000;
- }
- 
- .transaction-label-none {
-   color: #343434;
- }
- .text-transaction-header {
-   color: #343434;
- }
- .date-month {
-   margin-right: 5px;
- }
- 
- /* HOME - DEPOSIT / MAKE PAYMENT POP-UPS */
- .modal-header {
-   padding-bottom: 1rem !important;
- }
- .modal-content .modal-body {
-   padding: 20px 24px 0px;
- }
- 
- .amount-font {
-   font-size: 28px !important;
- }
- .amount-font::-webkit-input-placeholder {
-   font-size: 28px !important;
- }
- .custom-select:focus {
-   outline: 0;
-   box-shadow: 0px 1px 3px #a3fd8c;
- }
- 
- .invalid-feedback {
-   color: #ff0000;
-   font-size: 1.05rem;
- }
- 
- /* SIGN IN PAGE  */
- .sign-in i {
-   color: #008a20;
-   font-size: 1.125rem;
- }
- .sign-in input {
-   color: #343434;
-   font-size: 1.15rem;
- }
- .hidden {
-   display: none;
- }
- 
- /* AUTH PAGES SPECIFIC STYLES */
- .auth-container {
-   display: flex;
-   height: 100vh;
-   background-color: #ffffff;
-   overflow: hidden;
- }
- 
- .auth-form-section {
-   width: 45%;
-   padding: 2rem 5rem;
-   overflow-y: auto;
-   scrollbar-width: none;
-   -ms-overflow-style: none;
- }
- 
- .auth-form-section::-webkit-scrollbar {
-   display: none;
- }
- 
- .auth-hero-section {
-   width: 55%;
-   background-size: cover;
-   background-position: center;
-   display: flex;
-   flex-direction: column;
-   justify-content: space-between;
-   padding: 3rem;
-   color: white;
-   position: relative;
-   overflow: hidden;
- }
- 
- .login-page .auth-hero-section {
-   background: linear-gradient(
-       to bottom,
-       rgba(255, 255, 255, 0.8) 0%,
-       rgba(255, 255, 255, 0.4) 15%,
-       rgba(0, 0, 0, 0.4) 40%,
-       rgba(0, 0, 0, 0.75) 100%
-     ),
-     url("https://res.cloudinary.com/okorosamuel/image/upload/v1745647567/fine-paying-girl_t7rvfx.jpg") center/cover no-repeat;
-   background-position: center;
-   background-size: cover;
-   transition: all 0.3s ease;
- }
- 
- .signup-page .auth-hero-section {
-   background: linear-gradient(
-       to bottom,
-       rgba(255, 255, 255, 0.8) 0%,
-       rgba(255, 255, 255, 0.4) 15%,
-       rgba(0, 0, 0, 0.4) 40%,
-       rgba(0, 0, 0, 0.75) 100%
-     ),
-     url("https://res.cloudinary.com/okorosamuel/image/upload/v1745647567/young-man_r66jun.jpg") center/cover no-repeat;
-   background-position: center;
-   background-size: cover;
-   transition: all 0.3s ease;
- }
- 
- .auth-logo {
-   z-index: 1;
-   display: flex;
-   width: 100%;
-   align-items: center;
-   justify-content: end;
-   gap: 8px;
-   font-weight: 600;
- }
- 
- .index-logo {
-   justify-content: start;
- }
- 
- .auth-logo img {
-  width: 30px;
- }
- 
- .auth-logo p {
-   font-size: 1.125rem;
-   line-height: 1.75rem;
-   color: #008a20;
- }
- 
- .testimonial {
-   background-color: rgba(255, 255, 255, 0.5);
-   padding: 2rem;
-   border-radius: 10px;
-   font-weight: 500;
-   color: #000000;
-   margin-top: auto;
-   position: relative;
-   z-index: 1;
-   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
- }
- 
- .testimonial-text {
-   font-style: italic;
-   font-size: 1.2rem;
-   margin-bottom: 1rem;
-   line-height: 1.6;
- }
- 
- .testimonial-author {
-   font-weight: 600;
-   color: #008a20;
- }
- 
- .auth-form-section .card {
-   background-color: transparent;
-   border: none;
-   box-shadow: none;
- }
- 
- .form-navigation {
-   display: flex;
-   justify-content: space-between;
-   margin-top: 2rem;
-   padding-top: 1.5rem;
-   border-top: 1px solid #e0e0e0;
- }
- 
- .form-navigation .btn {
-   min-width: 160px;
- }
- 
- .form-step-container {
-   position: relative;
-   min-height: 500px;
- }
- 
- .form-step {
-   position: absolute;
-   top: 0;
-   left: 0;
-   width: 100%;
-   transition: all 0.4s ease;
-   opacity: 0;
-   pointer-events: none;
- }
- 
- .form-step.active {
-   position: relative;
-   opacity: 1;
-   pointer-events: all;
- }
- 
- @media (max-width: 992px) {
-   .auth-container {
-     flex-direction: column;
-   }
- 
-   .auth-form-section {
-     width: 100%;
-     padding: 2rem;
-     height: auto;
-   }
- 
-   .auth-hero-section {
-     display: none;
-   }
- }
- 
- /* BUTTONS */
- .btn,
- .btn-primary,
- .card-button,
- .btn-block,
- form button {
-   align-items: center;
-   background: #008a20 !important;
-   color: white !important;
-   border-radius: 50px;
-   font-weight: 500 !important;
-   text-transform: capitalize !important;
- }
- .btn-deny {
-   background: #c80000 !important;
- }
- .btn-secondary {
-   background-color: white !important;
-   color: #008a20 !important;
-   border: 1px solid #008a20 !important;
- }
- .btn:hover,
- .card-button:hover,
- .btn-primary:hover,
- .btn-secondary:hover,
- .btn:focus,
- .btn-primary:focus,
- .btn-secondary:focus {
-   cursor: pointer !important;
-   transition: all 0.3s ease-in-out !important;
- }
- .btn:hover,
- .card-button:hover,
- .btn-primary:hover,
- .btn:focus,
- .btn-primary:focus {
-   background-color: #006200 !important;
- }
- .btn:active,
- .card-button:active,
- .btn-primary:active,
- .btn-secondary:active {
-   background-color: #a3fd8c !important;
-   border: 1px solid #a3fd8c !important;
- }
- 
- .btn-primary.custom-file-control:before,
- .btn.btn-primary {
-   background-color: #008a20 !important;
-   color: white !important;
-   border-radius: 50px;
- }
- 
- .btn-secondary.custom-file-control:before,
- .btn.btn-secondary {
-   background-color: white !important;
-   color: #008a20 !important;
-   border: 1px solid #008a20;
- }
- 
- .btn-primary.custom-file-control:focus,
- .btn-primary.custom-file-control:hover {
-   background-color: #006200 !important;
- }
- 
- .btn-primary.custom-file-control:active,
- .btn-primary.custom-file-control:active,
- .btn-secondary.custom-file-control:active,
- .btn.btn-secondary:active {
-   background-color: #a3fd8c !important;
-   border: 1px solid #a3fd8c !important;
- }
- 
- .deposit-send-button {
-   margin-left: 0.5rem !important;
- }
- 
- .deposit-send-payment-div {
-   margin-top: auto;
-   margin-bottom: auto;
- }
- 
- .account-number-div {
-   vertical-align: middle;
- }
- 
- /*FORMS */
- .form-control:focus {
-   background-color: white !important;
-   border-color: #a3fd8c !important;
- }
- input .form-control {
-   background-color: #f8f8f8 !important;
- }
- input {
-   background-color: rgba(0, 0, 0, 0) !important;
-   border: none !important;
- }
- 
- .custom-file-control,
- .form-control,
- .is-focused .custom-file-control,
- .is-focused .form-control {
-   background-image: linear-gradient(0deg, #008a20 2px, rgba(0, 150, 136, 0) 0),
-     linear-gradient(0deg, rgba(0, 0, 0, 0.26) 1px, transparent 0);
- }
- 
- .custom-file-control:invalid,
- .form-control:invalid {
-   background-image: linear-gradient(0deg, #008a20 2px, rgba(213, 0, 0, 0) 0),
-     linear-gradient(0deg, rgba(0, 0, 0, 0.26) 1px, transparent 0);
- }
- 
- .close,
- .deposit-cancel .payment-cancel {
-   background-color: Transparent !important;
-   background-repeat: no-repeat !important;
-   overflow: hidden !important;
-   outline: none !important;
-   border: none !important;
-   color: #343434 !important;
- }
- 
- .snackbar-body {
-   padding-bottom: 1em;
-   padding-top: 1em;
-   vertical-align: middle !important;
- }
- 
- .snackbar-card {
-   margin-top: 25px;
-   background-color: #202020 !important;
-   color: white !important;
-   margin-bottom: 0px;
-   border-radius: 10px;
-   font-weight: 500;
-   -webkit-box-shadow: none !important;
-   -moz-box-shadow: none !important;
-   box-shadow: none !important;
- }
- 
- .snackbar-close {
-   background-color: Transparent !important;
-   background-repeat: no-repeat !important;
-   overflow: hidden !important;
-   outline: none !important;
-   border: none !important;
-   color: #a3fd8c !important;
-   vertical-align: middle !important;
- }
- 
- .snackbar-close:hover {
-   cursor: pointer;
- }
- 
- .alert-danger {
-   background-color: #ff0000 !important;
-   color: white !important;
- }
- 
- .error-icon {
-   color: white !important;
- }
- 
- .top-row {
-   margin-top: 30px;
-   margin-bottom: 30px;
- }
- 
- .alert-message-container {
-   margin-bottom: 0px;
-   display: flex;
- }
- 
- .check-mark-container {
-   display: flex;
-   align-items: center;
-   margin-right: 15px;
- }
- 
- /* ============================================= */
- /* ACCOUNT PAGE ENHANCEMENTS */
- /* ============================================= */
- 
- .account-container {
-   padding: 2rem 1.5rem;
-   max-width: 1400px;
-   margin: 0 auto;
- }
- 
- .balance-row {
-   margin-bottom: 2rem;
- }
- 
- #current-balance {
-   display: flex;
-   align-items: center;
-   gap: 0.5rem;
- }
- 
- .currency-selector {
-   position: relative;
-   padding: 0.5rem;
-   cursor: pointer;
- }
- 
- .dropdown-content {
-   display: none;
-   position: absolute;
-   right: 0;
-   background-color: #fff;
-   min-width: 180px;
-   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-   z-index: 1;
-   border-radius: 4px;
- }
- 
- .dropdown-content a {
-   padding: 12px 16px;
-   text-decoration: none;
-   display: flex;
-   align-items: center;
-   gap: 0.5rem;
-   color: #262626;
- }
- 
- .dropdown-content a:hover {
-   background-color: #e0f5e9;
- }
- 
- .date-range-container {
-   display: flex;
-   align-items: center;
-   gap: 1rem;
-   margin-bottom: 1.5rem;
- }
- 
- #daterange {
-   width: 220px;
-   padding: 0.5rem 1rem;
-   border-radius: 4px;
-   border: 1px solid #ddd;
- }
- 
- #downloadTransactions {
-   display: flex;
-   align-items: center;
-   gap: 0.5rem;
-   padding: 0.5rem 1rem;
- }
- 
- .table-responsive {
-   padding: 0 1.5rem;
- }
- 
- .transaction-table {
-   width: 100% !important;
-   border-collapse: separate;
-   border-spacing: 0;
- }
- 
- .transaction-table thead th {
-   position: sticky;
-   top: 0;
-   background-color: #f8f8f8;
-   z-index: 2;
- }
- 
- .actions-dropdown {
-   display: flex;
-   justify-content: flex-end;
-   position: relative;
- }
- 
- .card-button .card-body {
-   padding: 1.5rem;
- }
- 
- .card-button:hover {
-   transform: translateY(-2px);
-   transition: transform 0.2s ease;
- }
- 
- .modal-content {
-   border-radius: 10px;
- }
- 
- .modal-body {
-   padding: 1.5rem !important;
- }
- 
- .snackbar-card {
-   position: fixed;
-   bottom: 20px;
-   right: 20px;
-   width: auto;
-   max-width: 400px;
-   z-index: 1000;
- }
- 
- @media (max-width: 992px) {
-   .balance-row > div {
-     margin-bottom: 1rem;
-   }
-   
-   .account-info {
-     text-align: left !important;
-     margin-top: 1rem;
-   }
- }
- 
- @media (max-width: 768px) {
-   .date-range-container {
-     flex-direction: column;
-     align-items: flex-start;
-   }
-   
-   #daterange {
-     width: 100% !important;
-   }
-   
-   .account-container {
-     padding: 1.5rem 1rem;
-   }
- 
-   .transaction-table td, 
-   .transaction-table th {
-     padding: 0.75rem !important;
-     font-size: 0.95rem !important;
-   }
- }
+html,
+body {
+  font-family: "Roboto", sans-serif !important;
+  font-size: 1.1rem;
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff !important;
+}
+p {
+  margin-bottom: 0rem !important;
+}
+small {
+  font-size: 0.9rem;
+}
+.pop-up-label {
+  font-size: 24px;
+  font-weight: 500;
+  color: #343434;
+}
+label {
+  font-size: 0.9rem;
+}
+
+/* MATERIAL ICONS */
+.material-icons {
+  color: #008a20;
+  vertical-align: middle !important;
+}
+.button-icon {
+  font-size: 24px;
+  color: #008a20;
+}
+.money-icon {
+  font-size: 24px;
+  color: #008a20;
+}
+.modal-icon {
+  font-size: 18px !important;
+  margin-right: 8px;
+  width: 18px;
+  color: #008a20;
+}
+.arrow-back {
+  font-size: 15px;
+  color: #008a20;
+}
+#deposit-icon {
+  color: white !important;
+  vertical-align: middle !important;
+}
+#payment-icon {
+  color: white !important;
+  vertical-align: middle !important;
+}
+
+/* TOP NAVIGATION  */
+.header {
+  margin-bottom: 2rem;
+}
+
+.header-title,
+.card-header-title {
+  font-weight: 500;
+  color: #343434;
+}
+#cymbal-logo {
+  max-width: 80%;
+  max-height: 80%;
+  vertical-align: middle;
+  /* margin: auto;
+    display: block;
+    object-fit: contain; */
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-text {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+}
+
+.navbar-top {
+  background-color: white;
+  min-height: 80px;
+  color: white;
+  position: relative;
+}
+.nav-item {
+  font-size: 24px !important;
+  margin: auto;
+  margin-left: 20px;
+}
+.nav-link {
+  color: #343434;
+  text-transform: none !important;
+  font-size: 1rem !important;
+}
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.5rem !important;
+  letter-spacing: -0.04em !important;
+  color: #000000 !important;
+}
+.nav-link i {
+  font-size: 20px;
+}
+.nav-link:hover {
+  color: #343434;
+  transition: all 0.2s ease-in;
+}
+#account-user-name {
+  font-weight: 500;
+  font-size: 1.1rem;
+  color: #000101;
+}
+.account-user-avatar {
+  margin-right: 5px;
+}
+#logout-form a:hover {
+  cursor: pointer;
+}
+.fa-icon-spacer {
+  margin-left: 8px;
+}
+.header-body {
+  padding-top: 1.5rem;
+  /* border-bottom: 1px solid black;  */
+}
+
+#popup {
+  /* top: auto;
+bottom: 10px;
+ */
+
+  top: 0;
+  bottom: 100px;
+  position: absolute;
+}
+
+/* FOOTER */
+.footer {
+  color: #343434;
+  background-color: white;
+
+  border-top: 2px solid #f8f8f8;
+  bottom: 0;
+  padding: 20px 24px 20px;
+  right: 0;
+}
+
+/* CARDS */
+.card {
+  color: #343434;
+  background-color: #f8f8f8;
+  margin-bottom: 1.5rem;
+  border-radius: 10px;
+
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+}
+.card-icon {
+  font-size: 36px !important;
+  color: #a3fd8c;
+}
+
+/* ACCOUNT HOME */
+.account-info {
+  font-size: 20px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.account-overview {
+  margin-right: 5px;
+  font-size: 24px;
+}
+.account-icon {
+  vertical-align: middle !important;
+}
+
+.account-num-text {
+  font-weight: 600;
+  margin-right: 8px;
+  vertical-align: middle !important;
+  display: inline-block !important;
+}
+.account-number {
+  font-weight: 200;
+  vertical-align: middle !important;
+  display: inline-block !important;
+}
+
+/* TRANSACTION TABLE */
+.card-table {
+  margin-bottom: 0 !important;
+}
+.card-table tbody td:first-child,
+.card-table thead th:first-child {
+  padding-left: 1.5rem !important;
+}
+.card-table-header {
+  padding: 1.5rem 1.5rem;
+  margin-bottom: 0;
+  background-color: transparent;
+}
+.table-sm td,
+.table-sm th {
+  padding: 1.1rem !important;
+}
+.table td {
+  vertical-align: middle !important;
+  font-size: 1.05rem !important;
+}
+.table thead th {
+  color: #343434;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  border-bottom-width: 1px;
+}
+.table [data-sort]::after {
+  margin-left: 0.25rem;
+}
+.list tr:hover {
+  transition: all 0.3s ease-in;
+}
+.text-credit {
+  color: #ff0000;
+}
+.text-debit {
+  color: #008a20;
+}
+.transaction-amount {
+  text-align: right !important;
+}
+.transaction-amount-credit {
+  color: #008a20;
+}
+.transaction-amount-debit {
+  color: #ff0000;
+}
+
+/* .transaction-date {
+  font-size: 18px;
+} */
+.transaction-label-none {
+  color: #343434;
+}
+.text-transaction-header {
+  color: #343434;
+}
+.date-month {
+  margin-right: 5px;
+}
+
+/* HOME - DEPOSIT / MAKE PAYMENT POP-UPS */
+.modal-header {
+  padding-bottom: 1rem !important;
+  /* border-bottom: 1px solid black;  */
+}
+.modal-content .modal-body {
+  padding: 20px 24px 0px;
+}
+
+.amount-font {
+  font-size: 28px !important;
+}
+.amount-font::-webkit-input-placeholder {
+  font-size: 28px !important;
+}
+.custom-select:focus {
+  /* border-color: black;  */
+  outline: 0;
+  box-shadow: 0px 1px 3px #a3fd8c;
+}
+
+.invalid-feedback {
+  color: #ff0000;
+  font-size: 1.05rem;
+}
+
+/* SIGN IN PAGE  */
+.sign-in i {
+  color: #008a20;
+  font-size: 1.125rem;
+}
+.sign-in input {
+  color: #343434;
+  font-size: 1.15rem;
+}
+.hidden {
+  display: none;
+}
+
+/* AUTH PAGES SPECIFIC STYLES */
+/* AUTH PAGES SPECIFIC STYLES */
+.auth-container {
+  display: flex;
+  height: 100vh;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+
+.auth-form-section {
+  width: 45%;
+  padding: 2rem 5rem;
+  overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.auth-form-section::-webkit-scrollbar {
+  display: none;
+}
+
+.auth-hero-section {
+  width: 55%;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 3rem;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Different background images for login/signup */
+.login-page .auth-hero-section {
+  background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.8) 0%,
+      rgba(255, 255, 255, 0.4) 15%,
+      rgba(0, 0, 0, 0.4) 40%,
+      rgba(0, 0, 0, 0.75) 100%
+    ),
+    url("https://res.cloudinary.com/okorosamuel/image/upload/v1745647567/fine-paying-girl_t7rvfx.jpg") center/cover no-repeat;
+  background-position: center;
+  background-size: cover;
+  transition: all 0.3s ease;
+}
+
+.signup-page .auth-hero-section {
+  background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.8) 0%,
+      rgba(255, 255, 255, 0.4) 15%,
+      rgba(0, 0, 0, 0.4) 40%,
+      rgba(0, 0, 0, 0.75) 100%
+    ),
+    url("https://res.cloudinary.com/okorosamuel/image/upload/v1745647567/young-man_r66jun.jpg") center/cover no-repeat;
+  background-position: center;
+  background-size: cover;
+  transition: all 0.3s ease;
+}
+
+
+.auth-logo {
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: end;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.index-logo {
+  justify-content: start;
+}
+
+.auth-logo img {
+ width: 30px;
+}
+
+.auth-logo p {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  color: #008a20;
+}
+
+.testimonial {
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 2rem;
+  border-radius: 10px;
+  font-weight: 500;
+  color: #000000;
+  margin-top: auto;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial-text {
+  font-style: italic;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.testimonial-author {
+  font-weight: 600;
+  color: #008a20;
+}
+
+/* Form container */
+.auth-form-section .card {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+/* Form navigation buttons */
+.form-navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.form-navigation .btn {
+  min-width: 160px;
+}
+
+/* Form steps */
+.form-step-container {
+  position: relative;
+  min-height: 500px;
+}
+
+.form-step {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transition: all 0.4s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.form-step.active {
+  position: relative;
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .auth-container {
+    flex-direction: column;
+  }
+
+  .auth-form-section {
+    width: 100%;
+    padding: 2rem;
+    height: auto;
+  }
+
+  .auth-hero-section {
+    display: none;
+  }
+}
+
+/* BUTTONS */
+.btn,
+.btn-primary,
+.card-button,
+.btn-block,
+form button {
+  align-items: center;
+  background: #008a20 !important;
+  color: white !important;
+  border-radius: 50px;
+  font-weight: 500 !important;
+  text-transform: capitalize !important;
+}
+.btn-deny {
+  background: #c80000 !important;
+}
+.btn-secondary {
+  background-color: white !important;
+  color: #008a20 !important;
+  border: 1px solid #008a20 !important;
+}
+.btn:hover,
+.card-button:hover,
+.btn-primary:hover,
+.btn-secondary:hover,
+.btn:focus,
+.btn-primary:focus,
+.btn-secondary:focus {
+  cursor: pointer !important;
+  transition: all 0.3s ease-in-out !important;
+}
+.btn:hover,
+.card-button:hover,
+.btn-primary:hover,
+.btn:focus,
+.btn-primary:focus {
+  background-color: #006200 !important;
+}
+.btn:active,
+.card-button:active,
+.btn-primary:active,
+.btn-secondary:active {
+  background-color: #a3fd8c !important;
+  border: 1px solid #a3fd8c !important;
+}
+
+.btn-primary.custom-file-control:before,
+.btn.btn-primary {
+  background-color: #008a20 !important;
+  color: white !important;
+  border-radius: 50px;
+}
+
+.btn-secondary.custom-file-control:before,
+.btn.btn-secondary {
+  background-color: white !important;
+  color: #008a20 !important;
+  border: 1px solid #008a20;
+}
+
+.btn-primary.custom-file-control:focus,
+.btn-primary.custom-file-control:hover {
+  background-color: #006200 !important;
+}
+
+.btn-primary.custom-file-control:active,
+.btn-primary.custom-file-control:active,
+.btn-secondary.custom-file-control:active,
+.btn.btn-secondary:active {
+  background-color: #a3fd8c !important;
+  border: 1px solid #a3fd8c !important;
+}
+
+/* inside modal */
+.deposit-send-button {
+  margin-left: 0.5rem !important;
+}
+/* on homepage */
+.deposit-send-payment-div {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.account-number-div {
+  vertical-align: middle;
+}
+
+/*FORMS */
+.form-control:focus {
+  background-color: white !important;
+  border-color: #a3fd8c !important;
+}
+input .form-control {
+  background-color: #f8f8f8 !important;
+}
+input {
+  background-color: rgba(0, 0, 0, 0) !important;
+  border: none !important;
+}
+
+.custom-file-control,
+.form-control,
+.is-focused .custom-file-control,
+.is-focused .form-control {
+  background-image: linear-gradient(0deg, #008a20 2px, rgba(0, 150, 136, 0) 0),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.26) 1px, transparent 0);
+}
+
+.custom-file-control:invalid,
+.form-control:invalid {
+  background-image: linear-gradient(0deg, #008a20 2px, rgba(213, 0, 0, 0) 0),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.26) 1px, transparent 0);
+}
+
+/* "x" icons in pop-ups, deposit accepted alert */
+.close,
+.deposit-cancel .payment-cancel {
+  background-color: Transparent !important;
+  background-repeat: no-repeat !important;
+  overflow: hidden !important;
+  outline: none !important;
+  border: none !important;
+  color: #343434 !important;
+}
+
+/* Deposit / payment accepted alert */
+.snackbar-body {
+  padding-bottom: 1em;
+  padding-top: 1em;
+  vertical-align: middle !important;
+}
+
+.snackbar-card {
+  margin-top: 25px;
+  background-color: #202020 !important;
+  color: white !important;
+  margin-bottom: 0px;
+  border-radius: 10px;
+
+  font-weight: 500;
+
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+.snackbar-close {
+  background-color: Transparent !important;
+  background-repeat: no-repeat !important;
+  overflow: hidden !important;
+  outline: none !important;
+  border: none !important;
+  color: #a3fd8c !important;
+  vertical-align: middle !important;
+}
+
+.snackbar-close:hover {
+  cursor: pointer;
+}
+
+/* Signup "danger" alert, eg. passwords don't match */
+.alert-danger {
+  background-color: #ff0000 !important;
+  color: white !important;
+}
+
+.error-icon {
+  color: white !important;
+}
+
+.top-row {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.alert-message-container {
+  margin-bottom: 0px;
+  display: flex;
+}
+
+.check-mark-container {
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+}
