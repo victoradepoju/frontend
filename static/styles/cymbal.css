@@ -730,7 +730,7 @@ input {
   font-size: 14px;
   letter-spacing: 1px;
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: 5px;
 }
 
