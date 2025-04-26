@@ -357,7 +357,8 @@ bottom: 10px;
       rgba(0, 0, 0, 0.4) 40%,
       rgba(0, 0, 0, 0.75) 100%
     ),
-    url("https://res.cloudinary.com/okorosamuel/image/upload/v1745647567/fine-paying-girl_t7rvfx.jpg") center/cover no-repeat;
+    url("https://res.cloudinary.com/okorosamuel/image/upload/v1745647567/fine-paying-girl_t7rvfx.jpg")
+      center/cover no-repeat;
   background-position: center;
   background-size: cover;
   transition: all 0.3s ease;
@@ -371,12 +372,12 @@ bottom: 10px;
       rgba(0, 0, 0, 0.4) 40%,
       rgba(0, 0, 0, 0.75) 100%
     ),
-    url("https://res.cloudinary.com/okorosamuel/image/upload/v1745647567/young-man_r66jun.jpg") center/cover no-repeat;
+    url("https://res.cloudinary.com/okorosamuel/image/upload/v1745647567/young-man_r66jun.jpg")
+      center/cover no-repeat;
   background-position: center;
   background-size: cover;
   transition: all 0.3s ease;
 }
-
 
 .auth-logo {
   z-index: 1;
@@ -393,7 +394,7 @@ bottom: 10px;
 }
 
 .auth-logo img {
- width: 30px;
+  width: 30px;
 }
 
 .auth-logo p {
@@ -669,4 +670,46 @@ input {
   display: flex;
   align-items: center;
   margin-right: 15px;
+}
+
+.doenload-trans-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#reportrange {
+  background: #fff;
+  cursor: pointer;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #fff;
+  min-width: 180px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 4px;
+}
+
+.dropdown-content a {
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  color: #262626;
+}
+
+.dropdown-content a:hover {
+  background-color: #e0f5e9;
+}
+
+.receipt-a {
+  display: flex;
+  gap: 5px;
+  align-items: center;
 }

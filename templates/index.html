@@ -127,6 +127,22 @@ limitations under the License.
                     Transaction History
                   </h4>
                 </div>
+
+                <div class="doenload-trans-container">
+                  <div id="reportrange">
+                    <i class="fa fa-calendar"></i>&nbsp;
+                    <span></span> <i class="fa fa-caret-down"></i>
+                </div>
+                <button
+                      type="button"
+                      class="btn btn-secondary"
+                      id="back-btn"
+                    >
+                      <span class="mr-2 material-icons arrow-back"
+                        >arrow_back</span
+                      >Download
+                    </button>
+                </div>
               </div>
             </div>
             <div class="table-responsive mb-0" id="transaction-table">
@@ -152,6 +168,9 @@ limitations under the License.
                     </th>
                     <th class="text-right">
                       <a class="text-transaction-header">Amount</a>
+                    </th>
+                    <th class="text-right">
+                      <a class="text-transaction-header">Actions</a>
                     </th>
                   </tr>
                 </thead>
@@ -197,6 +216,20 @@ limitations under the License.
                       </td>
                     {% endif %}
                   </tr>
+                  <td class="text-right">
+                    <div class="actions-dropdown">
+                      <span class="material-icons">more_vert</span>
+                      <div class="dropdown-content">
+                        <a href="#" class="receipt-a" onclick="downloadReceipt('{{ t.transactionId }}')">
+                          <span class="material-icons">receipt</span> Download Receipt
+                        </a>
+                        <div>
+                          {{t}}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
                 {% endfor %}
                 </tbody>
               </table>
