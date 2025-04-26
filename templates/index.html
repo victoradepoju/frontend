@@ -130,7 +130,7 @@ limitations under the License.
 
                 <div class="download-trans-container">
                   <div id="reportrange">
-                    <span class="material-icons calendar">calendar</span>
+                    <span class="material-icons date">date</span>
                     <span id="reportRangeInput"></span>
                     <span class="material-icons arrow-drop-down">arrow_drop_down</span>
                 </div>
@@ -170,7 +170,7 @@ limitations under the License.
                       <a class="text-transaction-header">Amount</a>
                     </th>
                     <th class="text-right">
-                      <a class="text-transaction-header"></a>
+                      <span class="text-transaction-header"></span>
                     </th>
                   </tr>
                 </thead>
@@ -215,21 +215,17 @@ limitations under the License.
                         -{{ format_currency(t.amount) }}
                       </td>
                     {% endif %}
-                  </tr>
-                  <td class="text-right">
-                    <div class="actions-dropdown">
-                      <span class="material-icons more-vert">more_vert</span>
-                      <div class="dropdown-content">
-                        <a href="#" class="receipt-a" onclick="downloadReceipt('{{ t.transactionId }}')">
-                          <span class="material-icons">receipt</span> Download Receipt
-                        </a>
-                        <div>
-                          {{t}}
+                    <td class="text-right">
+                      <div class="actions-dropdown">
+                        <span class="material-icons more-vert">more_vert</span>
+                        <div class="dropdown-content">
+                          <a href="#" class="receipt-a" onclick="downloadReceipt('{{ t.transactionId }}')">
+                            <span class="material-icons">receipt</span> Download Receipt
+                          </a>
                         </div>
                       </div>
-                    </div>
-                  </td>
-                </tr>
+                    </td>
+                  </tr>
                 {% endfor %}
                 </tbody>
               </table>
