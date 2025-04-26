@@ -169,6 +169,9 @@ limitations under the License.
                     <th class="text-right">
                       <a class="text-transaction-header">Amount</a>
                     </th>
+                    <th class="text-right">
+                      <a class="text-transaction-header">Actions</a>
+                    </th>
                   </tr>
                 </thead>
                 <tbody class="list" id="transaction-list">
@@ -213,6 +216,20 @@ limitations under the License.
                       </td>
                     {% endif %}
                   </tr>
+                  <td class="text-right">
+                    <div class="actions-dropdown">
+                      <span class="material-icons">more_vert</span>
+                      <div class="dropdown-content">
+                        <a href="#" class="receipt-a" onclick="downloadReceipt('{{ t.transactionId }}')">
+                          <span class="material-icons">receipt</span> Download Receipt
+                        </a>
+                        <div>
+                          {{t}}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
                 {% endfor %}
                 </tbody>
               </table>

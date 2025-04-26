@@ -126,3 +126,15 @@ $(function() {
   cb(start, end);
 
 });
+
+// Handle dropdown menus
+$(document).on('click', '.actions-dropdown .material-icons', function(e) {
+  e.stopPropagation(); // Prevents the click from bubbling up
+  $('.dropdown-content').not($(this).siblings('.dropdown-content')).hide(); // Hide other dropdowns
+  $(this).siblings('.dropdown-content').toggle(); // Toggle this dropdown
+});
+
+// Close dropdowns when clicking outside
+$(document).click(function() {
+  $('.dropdown-content').hide();
+});
