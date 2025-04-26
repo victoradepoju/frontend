@@ -15,121 +15,132 @@
  */
 
 document.addEventListener("DOMContentLoaded", function (event) {
+  // Currency conversion functionality - IMPROVED
+  const exchangeRates = {
+    NGN: 1,
+    USD: 0.00065, 
+    EUR: 0.0006, 
+    GBP: 0.00052, 
+    JPY: 0.098,
+    CNY: 0.0047, 
+  };
+
+  const currencySymbols = {
+    NGN: "₦",
+    USD: "$",
+    EUR: "€",
+    GBP: "£",
+    JPY: "¥",
+    CNY: "¥",
+  };
+
+  // Function to format currency with commas and appropriate symbol
+  function formatCurrency(amount, currency) {
+    // Determine decimal places: 2 for most currencies, 0 for JPY
+    const decimalPlaces = currency === "JPY" ? 0 : 2;
+
+    return `${currencySymbols[currency]}${amount.toLocaleString("en-US", {
+      minimumFractionDigits: decimalPlaces,
+      maximumFractionDigits: decimalPlaces,
+    })}`;
+  }
+
+  // Function to update the displayed balance
+  function updateBalance(currency) {
+    const balanceElement = document.getElementById("current-balance");
+    if (!balanceElement) return; // Ensure element exists
+    
+    // Get initial balance from the correct element
+    const initialBalanceElement = document.getElementById("init-balance");
+    if (!initialBalanceElement) return; // Ensure element exists
+    
+    const initialBalance = parseFloat(initialBalanceElement.value) || 0;
+    const convertedAmount = initialBalance * exchangeRates[currency];
+    balanceElement.textContent = formatCurrency(convertedAmount, currency);
+  }
+
+  // Add event listener to the currency dropdown
+  const currencyDropdown = document.getElementById("currency-dropdown");
+  if (currencyDropdown) {
+    currencyDropdown.addEventListener("change", function () {
+      updateBalance(this.value);
+    });
+    
+    // Initialize with Naira (default) on page load
+    updateBalance("NGN");
+  }
+
   // Deposit modal client-side validation
   var depositForm = document.querySelector("#deposit-form");
-  depositForm.addEventListener("submit", function (e) {
-    var isNewAcct = document.querySelector("#accounts").value == "add";
-    document.querySelector("#external_account_num").required = isNewAcct;
-    document.querySelector("#external_routing_num").required = isNewAcct;
+  if (depositForm) {
+    depositForm.addEventListener("submit", function (e) {
+      var isNewAcct = document.querySelector("#accounts").value == "add";
+      document.querySelector("#external_account_num").required = isNewAcct;
+      document.querySelector("#external_routing_num").required = isNewAcct;
 
-    const initialBalance = document.querySelector("#init-balance").value;
-    console.log("Initial Balance" + initialBalance)
-
-    const exchangeRates = {
-      NGN: 1,
-      USD: 0.00065, 
-      EUR: 0.0006, 
-      GBP: 0.00052, 
-      JPY: 0.098,
-      CNY: 0.0047, 
-    };
-
-    const currencySymbols = {
-      NGN: "₦",
-      USD: "$",
-      EUR: "€",
-      GBP: "£",
-      JPY: "¥",
-      CNY: "¥",
-    };
-
-    // Function to format currency with commas and appropriate symbol
-    function formatCurrency(amount, currency) {
-      // Determine decimal places: 2 for most currencies, 0 for JPY
-      const decimalPlaces = currency === "JPY" ? 0 : 2;
-
-      return `${currencySymbols[currency]}${amount.toLocaleString("en-US", {
-        minimumFractionDigits: decimalPlaces,
-        maximumFractionDigits: decimalPlaces,
-      })}`;
-    }
-
-    // Function to update the displayed balance
-    function updateBalance(currency) {
-      const balanceElement = document.getElementById("current-balance");
-      const convertedAmount = initialBalance * exchangeRates[currency];
-      balanceElement.textContent = formatCurrency(convertedAmount, currency);
-      console.log("Converted Balance" + convertedAmount)
-      console.log("Displayed" + balanceElement.textContent)
-      console.log("balanceElement" + balanceElement)  
-    }
-
-    // Add event listener to the dropdown
-    document
-      .getElementById("currency-dropdown")
-      .addEventListener("change", function () {
-        updateBalance(this.value);
-      });
-
-    // Initialize with Naira (default)
-    updateBalance("NGN");
-
-    if (
-      !depositForm.checkValidity() ||
-      document.querySelector("#deposit-amount").value <= 0.0
-    ) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    depositForm.classList.add("was-validated");
-  });
-
-  // Reset form on cancel event
-  document.querySelectorAll(".deposit-cancel").forEach((depositCancel) => {
-    depositCancel.addEventListener("click", function () {
-      depositForm.reset();
-      depositForm.classList.remove("was-validated");
-      RefreshModals();
+      if (
+        !depositForm.checkValidity() ||
+        document.querySelector("#deposit-amount").value <= 0.0
+      ) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      depositForm.classList.add("was-validated");
     });
-  });
+
+    // Reset form on cancel event
+    document.querySelectorAll(".deposit-cancel").forEach((depositCancel) => {
+      depositCancel.addEventListener("click", function () {
+        depositForm.reset();
+        depositForm.classList.remove("was-validated");
+        RefreshModals();
+      });
+    });
+  }
 
   // Send payment modal client-side validation
   var paymentForm = document.querySelector("#payment-form");
-  paymentForm.addEventListener("submit", function (e) {
-    // Check if account number is required
-    document.querySelector("#contact_account_num").required =
-      document.querySelector("#payment-accounts").value == "add";
+  if (paymentForm) {
+    paymentForm.addEventListener("submit", function (e) {
+      // Check if account number is required
+      document.querySelector("#contact_account_num").required =
+        document.querySelector("#payment-accounts").value == "add";
 
-    if (
-      !paymentForm.checkValidity() ||
-      document.querySelector("#payment-amount").value <= 0.0
-    ) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    paymentForm.classList.add("was-validated");
-  });
-
-  // Reset form on cancel event
-  document.querySelectorAll(".payment-cancel").forEach((paymentCancel) => {
-    paymentCancel.addEventListener("click", function () {
-      paymentForm.reset();
-      paymentForm.classList.remove("was-validated");
-      RefreshModals();
+      if (
+        !paymentForm.checkValidity() ||
+        document.querySelector("#payment-amount").value <= 0.0
+      ) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      paymentForm.classList.add("was-validated");
     });
-  });
+
+    // Reset form on cancel event
+    document.querySelectorAll(".payment-cancel").forEach((paymentCancel) => {
+      paymentCancel.addEventListener("click", function () {
+        paymentForm.reset();
+        paymentForm.classList.remove("was-validated");
+        RefreshModals();
+      });
+    });
+  }
 
   // Handle new account option in Send Payment modal
-  document
-    .querySelector("#payment-accounts")
-    .addEventListener("change", function (e) {
+  const paymentAccounts = document.querySelector("#payment-accounts");
+  if (paymentAccounts) {
+    paymentAccounts.addEventListener("change", function (e) {
       RefreshModals();
     });
+  }
 
   // Handle new account option in Deposit modal
-  document.querySelector("#accounts").addEventListener("change", function (e) {
-    RefreshModals();
-  });
+  const accounts = document.querySelector("#accounts");
+  if (accounts) {
+    accounts.addEventListener("change", function (e) {
+      RefreshModals();
+    });
+  }
 
   function uuidv4() {
     return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
@@ -144,22 +155,38 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   // Reset Modals to proper state
   function RefreshModals() {
-    paymentSelection = document.querySelector("#payment-accounts").value;
-    if (paymentSelection == "add") {
-      document.querySelector("#otherAccountInputs").classList.remove("hidden");
-    } else {
-      document.querySelector("#otherAccountInputs").classList.add("hidden");
+    const paymentAccounts = document.querySelector("#payment-accounts");
+    const otherAccountInputs = document.querySelector("#otherAccountInputs");
+    
+    if (paymentAccounts && otherAccountInputs) {
+      paymentSelection = paymentAccounts.value;
+      if (paymentSelection == "add") {
+        otherAccountInputs.classList.remove("hidden");
+      } else {
+        otherAccountInputs.classList.add("hidden");
+      }
     }
-    depositSelection = document.querySelector("#accounts").value;
-    if (depositSelection == "add") {
-      document.querySelector("#otherDepositInputs").classList.remove("hidden");
-    } else {
-      document.querySelector("#otherDepositInputs").classList.add("hidden");
+    
+    const accounts = document.querySelector("#accounts");
+    const otherDepositInputs = document.querySelector("#otherDepositInputs");
+    
+    if (accounts && otherDepositInputs) {
+      depositSelection = accounts.value;
+      if (depositSelection == "add") {
+        otherDepositInputs.classList.remove("hidden");
+      } else {
+        otherDepositInputs.classList.add("hidden");
+      }
     }
+    
     // generate new uuids
-    document.querySelector("#payment-uuid").value = uuidv4();
-    document.querySelector("#deposit-uuid").value = uuidv4();
+    const paymentUuid = document.querySelector("#payment-uuid");
+    const depositUuid = document.querySelector("#deposit-uuid");
+    
+    if (paymentUuid) paymentUuid.value = uuidv4();
+    if (depositUuid) depositUuid.value = uuidv4();
   }
+  
   RefreshModals();
 });
 
