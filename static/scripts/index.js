@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     const initialBalanceElement = document.getElementById("init-balance");
     if (!initialBalanceElement) return; // Ensure element exists
     
-    const initialBalance = parseFloat(initialBalanceElement.value) || 0;
+    const initialBalance = parseFloat(initialBalanceElement.textContent) || 0;
     const convertedAmount = initialBalance * exchangeRates[currency];
     balanceElement.textContent = formatCurrency(convertedAmount, currency);
   }
