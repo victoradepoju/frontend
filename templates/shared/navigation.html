@@ -2,14 +2,16 @@
 <header>
   <nav class="navbar navbar-expand-lg navbar-top">
     <div class="container">
-      {% if cymbal_logo == "true" %}
+      <!-- {% if cymbal_logo == "true" %} -->
       <div class="auth-logo index-logo">
         <img src="/static/img/favicon.png" alt="logo" />
         <p>Bank of Anthos</p>
       </div>
-      {% else %}
+      <!-- {% else %}
       <a class="navbar-brand"> {{ bank_name }} </a>
-      {% endif %} {% if name %}
+      {% endif %}  -->
+      
+      {% if name %}
       <button
         type="button"
         data-toggle="collapse"
