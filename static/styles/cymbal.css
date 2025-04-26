@@ -670,3 +670,117 @@ input {
   align-items: center;
   margin-right: 15px;
 }
+
+
+/* ============================================= */
+/* ACCOUNT PAGE SPECIFIC STYLES */
+/* ============================================= */
+
+.account-container {
+  padding: 2rem 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Balance Cards */
+#current-balance {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.currency-selector {
+  position: relative;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #fff;
+  min-width: 180px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 4px;
+}
+
+.dropdown-content a {
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  color: #262626;
+}
+
+.dropdown-content a:hover {
+  background-color: #e0f5e9;
+}
+
+/* Transaction Controls */
+.date-range-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+#daterange {
+  width: 220px;
+  padding: 0.5rem 1rem;
+}
+
+#downloadTransactions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Transaction Table */
+.transaction-table {
+  width: 100% !important;
+}
+
+.table-responsive {
+  padding: 0 1.5rem;
+}
+
+/* Action Dropdown */
+.actions-dropdown {
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+}
+
+.dropdown-content a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+  .balance-row > div {
+    margin-bottom: 1rem;
+  }
+  
+  .account-info {
+    text-align: left !important;
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .date-range-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  #daterange {
+    width: 100% !important;
+  }
+  
+  .account-container {
+    padding: 1.5rem 1rem;
+  }
+}
