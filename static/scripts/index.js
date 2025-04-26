@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     document.querySelector("#external_routing_num").required = isNewAcct;
 
     const initialBalance = document.querySelector("#init-balance").value;
+    console.log("Initial Balance" + initialBalance)
 
     const exchangeRates = {
       NGN: 1,
@@ -58,6 +59,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
       const balanceElement = document.getElementById("current-balance");
       const convertedAmount = initialBalance * exchangeRates[currency];
       balanceElement.textContent = formatCurrency(convertedAmount, currency);
+      console.log("Converted Balance" + convertedAmount)
+      console.log("Displayed" + balanceElement.textContent)
+      console.log("balanceElement" + balanceElement)  
     }
 
     // Add event listener to the dropdown
