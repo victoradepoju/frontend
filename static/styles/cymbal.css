@@ -689,7 +689,7 @@ input {
 
 .download-button {
   font-size: 18px;
-  padding:  10px;
+  padding: 10px;
   border-radius: 10px;
 }
 
@@ -699,7 +699,7 @@ input {
   right: 0;
   background-color: #fff;
   min-width: 180px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   z-index: 1;
   border-radius: 4px;
 }
@@ -721,3 +721,6 @@ input {
   align-items: center;
 }
 
+.more-vert {
+  cursor: pointer;
+}
