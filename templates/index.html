@@ -70,13 +70,24 @@ limitations under the License.
             <div class="card-body">
               <div class="row align-items-start">
                 <div class="col">
-                  <p class="text-uppercase mb-3">
-                    <b class="current-balance">Current Balance</b>
-                  </p>
+                  <div class="text-uppercase mb-3">
+                      <div class="current-balance"> <b>Current Balance</b>  in  <div class="currency-selector">
+                      <select id="currency-dropdown" class="form-select">
+                          <option value="NGN" selected> NGN (₦)</option>
+                          <option value="USD">USN ($)</option>
+                          <option value="EUR">EUR (€)</option>
+                          <option value="GBP">GBP (£)</option>
+                          <option value="JPY">JPY (¥)</option>
+                          <option value="CNY">CNY (¥)</option>
+                      </select>
+                  </div>
+                  </div>
+                  </div>
                   <span class="h1 mb-0" id="current-balance">
-                    {{ format_currency(balance) }}
-                  </span>
-                </div>
+                    {{ format_currency(balance) }}               
+                     </span>
+                     <p style="display: none;" id="init-balance">{{balance}}</p>
+              </div>
               </div>
             </div>
         </div>
@@ -374,7 +385,7 @@ limitations under the License.
                     <label class="text-uppercase text-muted secondary-text mb-3" for="payment-amount">Transaction Amount</label>
                     <div class="input-group mb-3">
                       <div class="input-group-prepend mr-2">
-                        <span class="input-group-text"><span class="amount-font material-icons">&#8358;</span></span>
+                        <span class="input-group-text" style="display: flex; align-items: center;"><span class="amount-font material-icons">&#8358;</span></span>
                       </div>
                       <input class="form-control amount-font" type="number" autocomplete="off" step="0.01" id="payment-amount" name="amount" placeholder="0.00" min="0.01" max="{{ balance / 100 if balance is not none }}" required>
                       <div class="invalid-feedback">
@@ -400,8 +411,8 @@ limitations under the License.
         </div>
       </div>
     </main>
-{% include 'shared/footer.html' %}
-{% include 'shared/scripts.html' %}
+<!-- {% include 'shared/footer.html' %}
+{% include 'shared/scripts.html' %} -->
     <!-- Page specific-->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
