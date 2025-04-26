@@ -17,6 +17,49 @@ limitations under the License.
 <html lang="en">
   <head>
 {% include 'shared/html_head.html' %}
+<!-- Add these new libraries -->
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
+<style>
+  /* Add custom styles */
+  .actions-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #fff;
+    min-width: 160px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 4px;
+  }
+  
+  .dropdown-content a {
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    color: #262626;
+  }
+  
+  .dropdown-content a:hover {
+    background-color: #e0f5e9;
+  }
+  
+  .currency-selector {
+    cursor: pointer;
+  }
+  
+  .date-range-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+</style>
   </head>
   <body>
 {% include 'shared/platform_banner.html' %}
@@ -74,7 +117,14 @@ limitations under the License.
                     <b class="current-balance">Current Balance</b>
                   </p>
                   <span class="h1 mb-0" id="current-balance">
-                    {{ format_currency(balance) }}
+                    <span class="currency-selector" id="currencySymbol">₦</span>
+                    <span id="balanceAmount">{{ format_currency(balance) }}</span>
+                    <div class="dropdown-content" id="currencyDropdown">
+                      <a href="#" data-currency="NGN" data-symbol="₦">NGN (₦)</a>
+                      <a href="#" data-currency="USD" data-symbol="$">USD ($)</a>
+                      <a href="#" data-currency="EUR" data-symbol="€">EUR (€)</a>
+                      <a href="#" data-currency="GBP" data-symbol="£">GBP (£)</a>
+                    </div>
                   </span>
                 </div>
               </div>
@@ -116,6 +166,14 @@ limitations under the License.
         </div>
       </div>
 
+      <!-- Add before transaction table -->
+      <div class="date-range-container">
+        <input type="text" id="daterange" class="form-control" style="width: 220px;" />
+        <button class="btn btn-primary" id="downloadTransactions">
+          <span class="material-icons">download</span> Download
+        </button>
+      </div>
+
       <!-- Transaction History Table -->
       <div class="row col-lg-12 mb-4 align-items-start">
         <div class="col-lg-12">
@@ -135,7 +193,7 @@ limitations under the License.
             {% elif history|length == 0 %}
               <h4 class="card-table-header">No Transactions Found</h4>
             {% else %}
-              <table class="table table-sm table-nowrap card-table">
+              <table class="table table-sm table-nowrap card-table transaction-table">
                 <thead class="text-uppercase">
                   <tr>
                     <th>
@@ -152,6 +210,9 @@ limitations under the License.
                     </th>
                     <th class="text-right">
                       <a class="text-transaction-header">Amount</a>
+                    </th>
+                    <th class="text-right">
+                      <a class="text-transaction-header">Actions</a>
                     </th>
                   </tr>
                 </thead>
@@ -196,6 +257,16 @@ limitations under the License.
                         -{{ format_currency(t.amount) }}
                       </td>
                     {% endif %}
+                    <td class="text-right">
+                      <div class="actions-dropdown">
+                        <span class="material-icons" style="cursor: pointer;">more_vert</span>
+                        <div class="dropdown-content">
+                          <a href="#" onclick="downloadReceipt('{{ t.transactionId }}')">
+                            <span class="material-icons">receipt</span> Download Receipt
+                          </a>
+                        </div>
+                      </div>
+                    </td>
                   </tr>
                 {% endfor %}
                 </tbody>
@@ -375,5 +446,116 @@ limitations under the License.
 {% include 'shared/scripts.html' %}
     <!-- Page specific-->
     <script src="static/scripts/index.js"></script>
+    <!-- Add before closing body tag -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Add custom script -->
+    <script>
+    $(document).ready(function() {
+      // Initialize date range picker
+      $('#daterange').daterangepicker({
+        startDate: moment().subtract(29, 'days'),
+        endDate: moment(),
+        ranges: {
+          'Today': [moment(), moment()],
+          'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month': [moment().startOf('month'), moment().endOf('month')],
+          'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+      });
+
+      // Initialize DataTable with pagination
+      const table = $('.transaction-table').DataTable({
+        pageLength: 10,
+        order: [[0, 'desc']],
+        language: {
+          search: ''
+        }
+      });
+
+      // Handle vertical dots dropdown
+      $(document).on('click', '.actions-dropdown .material-icons', function(e) {
+        e.stopPropagation();
+        $('.dropdown-content').not($(this).siblings('.dropdown-content')).hide();
+        $(this).siblings('.dropdown-content').toggle();
+      });
+
+      // Handle currency conversion
+      const exchangeRates = {
+        NGN: 1,
+        USD: 0.00083,
+        EUR: 0.00077,
+        GBP: 0.00066
+      };
+
+      $('#currencySymbol').click(function(e) {
+        e.stopPropagation();
+        $('#currencyDropdown').toggle();
+      });
+
+      $('#currencyDropdown a').click(function(e) {
+        e.preventDefault();
+        const currency = $(this).data('currency');
+        const symbol = $(this).data('symbol');
+        const originalAmount = parseFloat($('#balanceAmount').text().replace(/[^0-9.-]+/g, ''));
+        const convertedAmount = (originalAmount * exchangeRates[currency]).toFixed(2);
+        
+        $('#currencySymbol').text(symbol);
+        $('#balanceAmount').text(
+          new Intl.NumberFormat('en-US').format(convertedAmount)
+        );
+        $('#currencyDropdown').hide();
+      });
+
+      // Close dropdowns when clicking outside
+      $(document).click(function() {
+        $('.dropdown-content').hide();
+      });
+
+      // Download transactions
+      $('#downloadTransactions').click(function() {
+        const dates = $('#daterange').val().split(' - ');
+        const startDate = moment(dates[0]);
+        const endDate = moment(dates[1]);
+        
+        // Filter transactions by date range
+        const filteredData = table.rows().data().filter(function(value, index) {
+          const rowDate = moment(value[0], 'MMM DD YYYY');
+          return rowDate.isBetween(startDate, endDate, 'day', '[]');
+        });
+        
+        // Convert to CSV
+        const csv = convertToCSV(filteredData);
+        downloadCSV(csv, `transactions_${startDate.format('YYYYMMDD')}_${endDate.format('YYYYMMDD')}.csv`);
+      });
+    });
+
+    function downloadReceipt(transactionId) {
+      // Implement receipt download logic
+      window.location.href = `/receipt/${transactionId}`;
+    }
+
+    function convertToCSV(data) {
+      // Implement CSV conversion logic
+      return data.map(row => row.join(',')).join('\n');
+    }
+
+    function downloadCSV(csv, filename) {
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.setAttribute('hidden', '');
+      a.setAttribute('href', url);
+      a.setAttribute('download', filename);
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+    </script>
   </body>
 </html>
