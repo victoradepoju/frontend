@@ -15,7 +15,6 @@
  */
 
 document.addEventListener("DOMContentLoaded", function (event) {
-  // Currency conversion functionality - IMPROVED
   const exchangeRates = {
     NGN: 1,
     USD: 0.00065, 
@@ -34,15 +33,53 @@ document.addEventListener("DOMContentLoaded", function (event) {
     CNY: "¥",
   };
 
-  // Function to format currency with commas and appropriate symbol
-  function formatCurrency(amount, currency) {
-    // Determine decimal places: 2 for most currencies, 0 for JPY
-    const decimalPlaces = currency === "JPY" ? 0 : 2;
 
-    return `${currencySymbols[currency]}${amount.toLocaleString("en-US", {
+  function formatCurrency(intAmount, currency = "NGN") {
+    if (intAmount === null || intAmount === undefined) {
+      return `${currencySymbols[currency]}---`;
+    }
+    
+    // The last two digits are decimal places, so divide by 100
+    const decimalAmount = Math.abs(intAmount) / 100;
+    
+    // Format with locale and 2 decimal places
+    const formattedAmount = decimalAmount.toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+    
+    // Add negative sign if needed
+    const sign = intAmount < 0 ? "-" : "";
+    
+    // Return formatted string with appropriate currency symbol
+    return `${sign}${currencySymbols[currency]}${formattedAmount}`;
+  }
+
+  function formatCurrencyWithConversion(intAmount, currency) {
+    if (intAmount === null || intAmount === undefined) {
+      return `${currencySymbols[currency]}---`;
+    }
+    
+    // Convert to decimal (divide by 100 since the last two digits are decimals)
+    const amountInNaira = intAmount / 100;
+    
+    // Convert to target currency
+    const convertedAmount = amountInNaira * exchangeRates[currency];
+    
+    // For JPY, no decimals; for others, 2 decimals
+    const decimalPlaces = currency === "JPY" ? 0 : 2;
+    
+    // Format with locale and appropriate decimal places
+    const formattedAmount = Math.abs(convertedAmount).toLocaleString("en-US", {
       minimumFractionDigits: decimalPlaces,
-      maximumFractionDigits: decimalPlaces,
-    })}`;
+      maximumFractionDigits: decimalPlaces
+    });
+    
+    // Add negative sign if needed
+    const sign = intAmount < 0 ? "-" : "";
+    
+    // Return formatted string with appropriate currency symbol
+    return `${sign}${currencySymbols[currency]}${formattedAmount}`;
   }
 
   // Function to update the displayed balance
@@ -54,9 +91,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
     const initialBalanceElement = document.getElementById("init-balance");
     if (!initialBalanceElement) return; // Ensure element exists
     
-    const initialBalance = parseFloat(initialBalanceElement.textContent) || 0;
-    const convertedAmount = initialBalance * exchangeRates[currency];
-    balanceElement.textContent = formatCurrency(convertedAmount, currency);
+    // Parse as integer since we're treating it as kobo (smallest currency unit)
+    const initialBalance = parseInt(initialBalanceElement.textContent) || 0;
+    
+    // Format and display the converted currency
+    balanceElement.textContent = formatCurrencyWithConversion(initialBalance, currency);
   }
 
   // Add event listener to the currency dropdown
