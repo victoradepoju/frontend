@@ -388,6 +388,10 @@ bottom: 10px;
   font-weight: 600;
 }
 
+.index-logo {
+  justify-content: start;;
+}
+
 .auth-logo img {
  width: 30px;
 }
