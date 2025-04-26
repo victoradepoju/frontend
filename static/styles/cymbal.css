@@ -724,3 +724,34 @@ input {
 .material-icons {
   cursor: pointer;
 }
+
+.current-balance {
+  color: #6c757d;
+  font-size: 14px;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+#current-balance {
+  color: #212529;
+  font-weight: 600;
+}
+
+.currency-selector {
+  margin-top: 15px;
+}
+
+.currency-label {
+  font-size: 14px;
+  color: #6c757d;
+  margin-bottom: 5px;
+}
+
+#currency-dropdown {
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ced4da;
+}
