@@ -689,7 +689,7 @@ input {
 
 .download-button {
   font-size: 18px;
-  padding: 10px;
+  margin-bottom: 0px;
   border-radius: 10px;
 }
 
@@ -721,6 +721,6 @@ input {
   align-items: center;
 }
 
-.more-vert {
+.material-icons {
   cursor: pointer;
 }
