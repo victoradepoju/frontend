@@ -229,71 +229,95 @@ document.addEventListener("DOMContentLoaded", function (event) {
   RefreshModals();
 });
 
-$(function () {
-  var start = moment().subtract(29, "days");
-  var end = moment();
-
-  function cb(start, end) {
-    $("#reportRangeInput").html(
-      start.format("MMMM D, YYYY") + " - " + end.format("MMMM D, YYYY")
-    );
+// Debug function to check if elements exist and events are binding
+function debugChatbot() {
+  console.log("Debugging chatbot initialization...");
+  
+  // Check if button exists
+  const chatButton = document.getElementById('chatbot-button');
+  console.log("Chat button exists:", !!chatButton);
+  
+  // Check if modal exists
+  const chatModal = document.getElementById('chatbotModal');
+  console.log("Chat modal exists:", !!chatModal);
+  
+  // Check jQuery and Bootstrap
+  console.log("jQuery loaded:", typeof $ !== 'undefined');
+  console.log("Bootstrap modal plugin loaded:", typeof $.fn.modal !== 'undefined');
+  
+  // Log button properties
+  if (chatButton) {
+    console.log("Button visibility:", window.getComputedStyle(chatButton).display);
+    console.log("Button position:", chatButton.getBoundingClientRect());
+    
+    // Force a click handler for testing
+    chatButton.addEventListener('click', function() {
+      console.log("Direct click handler fired");
+      if (chatModal && typeof $.fn.modal !== 'undefined') {
+        $('#chatbotModal').modal('show');
+      } else {
+        alert("Chat functionality is currently unavailable");
+      }
+    });
   }
+}
 
-  $("#reportrange").daterangepicker(
-    {
-      startDate: start,
-      endDate: end,
-      ranges: {
-        Today: [moment(), moment()],
-        Yesterday: [moment().subtract(1, "days"), moment().subtract(1, "days")],
-        "Last 7 Days": [moment().subtract(6, "days"), moment()],
-        "Last 30 Days": [moment().subtract(29, "days"), moment()],
-        "This Month": [moment().startOf("month"), moment().endOf("month")],
-        "Last Month": [
-          moment().subtract(1, "month").startOf("month"),
-          moment().subtract(1, "month").endOf("month"),
-        ],
-      },
-    },
-    cb
-  );
-
-  cb(start, end);
-});
-
-// Handle dropdown menus
-$(document).on("click", ".actions-dropdown .material-icons", function (e) {
-  e.stopPropagation(); // Prevents the click from bubbling up
-  $(".dropdown-content").not($(this).siblings(".dropdown-content")).hide(); // Hide other dropdowns
-  $(this).siblings(".dropdown-content").toggle(); // Toggle this dropdown
-});
-
-// Close dropdowns when clicking outside
-$(document).click(function () {
-  $(".dropdown-content").hide();
-});
-
-// This is the improved chatbot initialization code
+// Our improved chatbot initialization
 document.addEventListener('DOMContentLoaded', function() {
-  // Wait for jQuery and Bootstrap to be properly loaded
+  console.log("DOM content loaded event fired");
+  
+  // First run the debugger
+  debugChatbot();
+  
+  // Wait a bit and try again to catch any delayed loading issues
+  setTimeout(debugChatbot, 1000);
+  
+  // Direct approach without waiting for jQuery
+  const chatButton = document.getElementById('chatbot-button');
+  if (chatButton) {
+    chatButton.addEventListener('click', function(e) {
+      console.log("Chat button clicked via direct event listener");
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const chatModal = document.getElementById('chatbotModal');
+      if (chatModal) {
+        if (typeof $ !== 'undefined' && typeof $.fn.modal !== 'undefined') {
+          $('#chatbotModal').modal('show');
+        } else {
+          // Fallback to showing the modal without Bootstrap
+          chatModal.style.display = 'block';
+        }
+      }
+    });
+  }
+  
+  // Add a backup global click handler
+  document.addEventListener('click', function(e) {
+    if (e.target && (e.target.id === 'chatbot-button' || e.target.closest('#chatbot-button'))) {
+      console.log("Chat button clicked via global click listener");
+      const chatModal = document.getElementById('chatbotModal');
+      if (chatModal && typeof $ !== 'undefined' && typeof $.fn.modal !== 'undefined') {
+        $('#chatbotModal').modal('show');
+      }
+    }
+  });
+  
+  // Wait for jQuery and Bootstrap before setting up the rest of the chatbot
   function waitForBootstrap() {
     if (typeof $ !== 'undefined' && typeof $.fn.modal !== 'undefined') {
+      console.log("jQuery and Bootstrap modal plugin loaded, initializing chatbot");
       initializeChatbot();
     } else {
-      // Check again in 100ms
+      console.log("Waiting for jQuery and Bootstrap...");
       setTimeout(waitForBootstrap, 100);
     }
   }
 
   function initializeChatbot() {
-    const chatbotButton = document.getElementById('chatbot-button');
-    if (!chatbotButton) {
-      console.log('Chatbot button not found');
-      return;
-    }
-
-    // Initialize chatbot modal
-    $('#chatbot-button').click(function() {
+    // Initialize chatbot modal the jQuery way
+    $('#chatbot-button').off('click').on('click', function() {
+      console.log("Chat button clicked via jQuery handler");
       $('#chatbotModal').modal('show');
       setTimeout(() => {
         const messages = document.getElementById('chatbot-messages');
@@ -384,4 +408,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Start waiting for Bootstrap to load
   waitForBootstrap();
+});
+
+// Add a script load event to ensure everything is loaded
+window.addEventListener('load', function() {
+  console.log("Window fully loaded");
+  debugChatbot();
 });
