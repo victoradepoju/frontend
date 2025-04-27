@@ -273,15 +273,22 @@ $(document).click(function () {
   $(".dropdown-content").hide();
 });
 
-(function() {
-  // Maximum number of times to check for dependencies
-  const MAX_RETRIES = 3;
-  let retryCount = 0;
+// This is the improved chatbot initialization code
+document.addEventListener('DOMContentLoaded', function() {
+  // Wait for jQuery and Bootstrap to be properly loaded
+  function waitForBootstrap() {
+    if (typeof $ !== 'undefined' && typeof $.fn.modal !== 'undefined') {
+      initializeChatbot();
+    } else {
+      // Check again in 100ms
+      setTimeout(waitForBootstrap, 100);
+    }
+  }
 
   function initializeChatbot() {
-    // Only initialize if the chatbot elements exist
-    if (!document.getElementById('chatbot-button')) {
-      console.log('Chatbot elements not found');
+    const chatbotButton = document.getElementById('chatbot-button');
+    if (!chatbotButton) {
+      console.log('Chatbot button not found');
       return;
     }
 
@@ -294,43 +301,87 @@ $(document).click(function () {
       }, 100);
     });
 
-    // Rest of your chatbot code...
-    // [Keep all the existing chatbot functions here]
+    // Handle sending messages
+    $('#chatbot-send').click(function() {
+      sendChatbotMessage();
+    });
+
+    $('#chatbot-input').keypress(function(e) {
+      if (e.which === 13) {
+        sendChatbotMessage();
+      }
+    });
+
+    function sendChatbotMessage() {
+      const input = document.getElementById('chatbot-input');
+      const message = input.value.trim();
+      
+      if (message === '') return;
+      
+      // Add user message to chat
+      addChatMessage('You', message, false);
+      
+      // Clear input
+      input.value = '';
+      
+      // Show loading indicator
+      $('#chatbot-loading').removeClass('d-none');
+      
+      // Simulate response delay (this would be an API call in production)
+      setTimeout(() => {
+        // Hide loading indicator
+        $('#chatbot-loading').addClass('d-none');
+        
+        // Add bot response
+        processUserQuery(message);
+      }, 700);
+    }
+
+    function addChatMessage(sender, content, isBot) {
+      const messagesContainer = document.getElementById('chatbot-messages');
+      
+      const messageDiv = document.createElement('div');
+      messageDiv.className = isBot ? 
+        'chatbot-message chatbot-response' : 
+        'chatbot-message user-message';
+      
+      let avatarIcon = isBot ? 'account_circle' : 'person';
+      
+      messageDiv.innerHTML = `
+        <div class="chatbot-avatar">
+          <span class="material-icons">${avatarIcon}</span>
+        </div>
+        <div class="chatbot-text">
+          <div class="chatbot-name">${sender}</div>
+          <div class="chatbot-content">${content}</div>
+        </div>
+      `;
+      
+      messagesContainer.appendChild(messageDiv);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    function processUserQuery(query) {
+      // Simple example responses - in a real app, this would connect to a backend
+      const lowercaseQuery = query.toLowerCase();
+      
+      let response = "I'm sorry, I don't have information about that. Try asking about your transactions or account.";
+      
+      if (lowercaseQuery.includes('largest') || lowercaseQuery.includes('biggest')) {
+        response = "Your largest transaction in the past month was a debit of ₦45,000.00 to account 1234567890 on April 15th.";
+      } else if (lowercaseQuery.includes('balance')) {
+        const balance = document.getElementById('current-balance').textContent;
+        response = `Your current account balance is ${balance}.`;
+      } else if (lowercaseQuery.includes('amazon') || lowercaseQuery.includes('transaction')) {
+        response = "I found 3 transactions related to Amazon in the past 30 days totaling ₦12,500.00.";
+      } else if (lowercaseQuery.includes('help') || lowercaseQuery.includes('what can you do')) {
+        response = "I can help you analyze your transaction history. Try asking questions like 'What was my largest expense last month?' or 'Show transactions to [merchant name]'.";
+      }
+      
+      addChatMessage('Transaction Assistant', response, true);
+    }
   }
 
-  function checkDependencies() {
-    if (typeof $ === 'undefined') {
-      console.error('jQuery is not loaded');
-      return false;
-    }
-    if (typeof $.fn.modal === 'undefined') {
-      console.error('Bootstrap modal plugin is not loaded');
-      return false;
-    }
-    return true;
-  }
-
-  function tryInitialize() {
-    if (checkDependencies()) {
-      console.log('All dependencies loaded, initializing chatbot');
-      initializeChatbot();
-    } else if (retryCount < MAX_RETRIES) {
-      retryCount++;
-      console.log(`Retrying initialization (attempt ${retryCount})`);
-      setTimeout(tryInitialize, 500);
-    } else {
-      console.error('Failed to load required dependencies after multiple attempts - chatbot disabled');
-      // Optionally show a message to the user
-      $('#chatbot-button').hide().after(
-        '<div class="alert alert-warning mt-2">Chat feature is currently unavailable</div>'
-      );
-    }
-  }
-
-  // Start the initialization process when DOM is ready
-  if (document.readyState !== 'loading') {
-    tryInitialize();
-  } else {
-    document.addEventListener('DOMContentLoaded', tryInitialize);
-  }
-})();
+  // Start waiting for Bootstrap to load
+  waitForBootstrap();
+});
