@@ -232,29 +232,33 @@ document.addEventListener("DOMContentLoaded", function (event) {
 document.addEventListener('DOMContentLoaded', function() {
   console.log("DOM content loaded event fired");
   
-  // First try direct DOM approach without relying on Bootstrap
   const chatButton = document.getElementById('chatbot-button');
   const chatModal = document.getElementById('chatbotModal');
   
   if (chatButton && chatModal) {
-    // Direct DOM approach
+    // Track modal state
+    let modalIsOpen = false;
+    
+    // Button click handler
     chatButton.addEventListener('click', function(e) {
       console.log("Chat button clicked");
       e.preventDefault();
       
+      // If modal is already open, do nothing
+      if (modalIsOpen) return;
+      
       // Try Bootstrap modal if available
       if (typeof $ !== 'undefined' && typeof $.fn.modal !== 'undefined') {
-        $('#chatbotModal').modal('show');
+        try {
+          $('#chatbotModal').modal('show');
+        } catch (err) {
+          console.error("Bootstrap modal error:", err);
+          // Fall back to manual approach
+          showModalManually();
+        }
       } else {
-        // Fallback to simple show/hide
-        chatModal.style.display = 'block';
-        chatModal.classList.add('show');
-        document.body.classList.add('modal-open');
-        
-        // Add backdrop
-        const backdrop = document.createElement('div');
-        backdrop.className = 'modal-backdrop fade show';
-        document.body.appendChild(backdrop);
+        // Use manual approach
+        showModalManually();
       }
       
       // Scroll messages to bottom
@@ -262,25 +266,51 @@ document.addEventListener('DOMContentLoaded', function() {
       if (messages) messages.scrollTop = messages.scrollHeight;
     });
     
-    // Add close handlers for fallback approach
+    function showModalManually() {
+      chatModal.style.display = 'block';
+      chatModal.classList.add('show');
+      document.body.classList.add('modal-open');
+      modalIsOpen = true;
+      
+      // Add backdrop if it doesn't exist
+      if (!document.querySelector('.modal-backdrop')) {
+        const backdrop = document.createElement('div');
+        backdrop.className = 'modal-backdrop fade show';
+        document.body.appendChild(backdrop);
+      }
+    }
+    
+    // Add close handlers for manual approach
     const closeButtons = chatModal.querySelectorAll('[data-dismiss="modal"]');
     closeButtons.forEach(button => {
       button.addEventListener('click', function() {
-        closeChatModal();
+        closeModalManually();
       });
     });
     
     // Close modal when clicking outside
     window.addEventListener('click', function(e) {
-      if (e.target === chatModal) {
-        closeChatModal();
+      if (e.target === chatModal && modalIsOpen) {
+        closeModalManually();
       }
     });
     
-    function closeChatModal() {
+    // Also listen for Bootstrap's modal events to track state
+    chatModal.addEventListener('hidden.bs.modal', function() {
+      modalIsOpen = false;
+      console.log("Modal hidden via Bootstrap");
+    });
+    
+    chatModal.addEventListener('shown.bs.modal', function() {
+      modalIsOpen = true;
+      console.log("Modal shown via Bootstrap");
+    });
+    
+    function closeModalManually() {
       chatModal.style.display = 'none';
       chatModal.classList.remove('show');
       document.body.classList.remove('modal-open');
+      modalIsOpen = false;
       
       // Remove backdrop
       const backdrop = document.querySelector('.modal-backdrop');
@@ -288,7 +318,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   
-  // Setup chat functionality
+  // Rest of the chat functionality...
+  setupChatFunctionality();
+});
+
+function setupChatFunctionality() {
   const sendButton = document.getElementById('chatbot-send');
   const chatInput = document.getElementById('chatbot-input');
   
@@ -371,4 +405,4 @@ document.addEventListener('DOMContentLoaded', function() {
     
     addChatMessage('Transaction Assistant', response, true);
   }
-});
+}

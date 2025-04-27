@@ -766,6 +766,10 @@ input {
 }
 
 /* Chatbot Styles */
+.modal-content {
+  background-color: #e2f1ec;
+}
+
 #chatbot-button {
   transition: all 0.2s ease;
 }
@@ -965,4 +969,10 @@ input {
 .chatbot-button .material-icons {
   font-size: 24px;
   color: #fff;
+}
+
+.chatbot-send-icon {
+  font-size: 24px;
+  color: #fff;
+  transition: all 0.2s ease;
 }
