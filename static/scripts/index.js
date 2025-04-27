@@ -17,11 +17,11 @@
 document.addEventListener("DOMContentLoaded", function (event) {
   const exchangeRates = {
     NGN: 1,
-    USD: 0.00065, 
-    EUR: 0.0006, 
-    GBP: 0.00052, 
+    USD: 0.00065,
+    EUR: 0.0006,
+    GBP: 0.00052,
     JPY: 0.098,
-    CNY: 0.0047, 
+    CNY: 0.0047,
   };
 
   const currencySymbols = {
@@ -33,24 +33,23 @@ document.addEventListener("DOMContentLoaded", function (event) {
     CNY: "¥",
   };
 
-
   function formatCurrency(intAmount, currency = "NGN") {
     if (intAmount === null || intAmount === undefined) {
       return `${currencySymbols[currency]}---`;
     }
-    
+
     // The last two digits are decimal places, so divide by 100
     const decimalAmount = Math.abs(intAmount) / 100;
-    
+
     // Format with locale and 2 decimal places
     const formattedAmount = decimalAmount.toLocaleString("en-US", {
       minimumFractionDigits: 2,
-      maximumFractionDigits: 2
+      maximumFractionDigits: 2,
     });
-    
+
     // Add negative sign if needed
     const sign = intAmount < 0 ? "-" : "";
-    
+
     // Return formatted string with appropriate currency symbol
     return `${sign}${currencySymbols[currency]}${formattedAmount}`;
   }
@@ -59,25 +58,25 @@ document.addEventListener("DOMContentLoaded", function (event) {
     if (intAmount === null || intAmount === undefined) {
       return `${currencySymbols[currency]}---`;
     }
-    
+
     // Convert to decimal (divide by 100 since the last two digits are decimals)
     const amountInNaira = intAmount / 100;
-    
+
     // Convert to target currency
     const convertedAmount = amountInNaira * exchangeRates[currency];
-    
+
     // For JPY, no decimals; for others, 2 decimals
     const decimalPlaces = currency === "JPY" ? 0 : 2;
-    
+
     // Format with locale and appropriate decimal places
     const formattedAmount = Math.abs(convertedAmount).toLocaleString("en-US", {
       minimumFractionDigits: decimalPlaces,
-      maximumFractionDigits: decimalPlaces
+      maximumFractionDigits: decimalPlaces,
     });
-    
+
     // Add negative sign if needed
     const sign = intAmount < 0 ? "-" : "";
-    
+
     // Return formatted string with appropriate currency symbol
     return `${sign}${currencySymbols[currency]}${formattedAmount}`;
   }
@@ -86,16 +85,19 @@ document.addEventListener("DOMContentLoaded", function (event) {
   function updateBalance(currency) {
     const balanceElement = document.getElementById("current-balance");
     if (!balanceElement) return; // Ensure element exists
-    
+
     // Get initial balance from the correct element
     const initialBalanceElement = document.getElementById("init-balance");
     if (!initialBalanceElement) return; // Ensure element exists
-    
+
     // Parse as integer since we're treating it as kobo (smallest currency unit)
     const initialBalance = parseInt(initialBalanceElement.textContent) || 0;
-    
+
     // Format and display the converted currency
-    balanceElement.textContent = formatCurrencyWithConversion(initialBalance, currency);
+    balanceElement.textContent = formatCurrencyWithConversion(
+      initialBalance,
+      currency
+    );
   }
 
   // Add event listener to the currency dropdown
@@ -104,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     currencyDropdown.addEventListener("change", function () {
       updateBalance(this.value);
     });
-    
+
     // Initialize with Naira (default) on page load
     updateBalance("NGN");
   }
@@ -196,7 +198,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
   function RefreshModals() {
     const paymentAccounts = document.querySelector("#payment-accounts");
     const otherAccountInputs = document.querySelector("#otherAccountInputs");
-    
+
     if (paymentAccounts && otherAccountInputs) {
       paymentSelection = paymentAccounts.value;
       if (paymentSelection == "add") {
@@ -205,10 +207,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
         otherAccountInputs.classList.add("hidden");
       }
     }
-    
+
     const accounts = document.querySelector("#accounts");
     const otherDepositInputs = document.querySelector("#otherDepositInputs");
-    
+
     if (accounts && otherDepositInputs) {
       depositSelection = accounts.value;
       if (depositSelection == "add") {
@@ -217,15 +219,15 @@ document.addEventListener("DOMContentLoaded", function (event) {
         otherDepositInputs.classList.add("hidden");
       }
     }
-    
+
     // generate new uuids
     const paymentUuid = document.querySelector("#payment-uuid");
     const depositUuid = document.querySelector("#deposit-uuid");
-    
+
     if (paymentUuid) paymentUuid.value = uuidv4();
     if (depositUuid) depositUuid.value = uuidv4();
   }
-  
+
   RefreshModals();
 
   // Initialize chatbot functionality
@@ -234,172 +236,122 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 function initializeChatbot() {
   console.log("Initializing chatbot functionality");
-  
-  const chatButton = document.getElementById('chatbot-button');
-  const chatModal = document.getElementById('chatbotModal');
-  
+
+  const chatButton = document.getElementById("chatbot-button");
+  const chatModal = document.getElementById("chatbotModal");
+
   if (!chatButton || !chatModal) {
     console.error("Chatbot elements not found!");
     return;
   }
-  
-  // Create a data attribute to track modal state instead of a variable
-  // This is more reliable across event handlers
-  chatModal.setAttribute('data-is-open', 'false');
-  
-  // Remove any existing event listeners and create a fresh one
-  chatButton.removeEventListener('click', handleChatButtonClick);
-  chatButton.addEventListener('click', handleChatButtonClick);
-  
-  // Define the click handler separately so we can add/remove it
+
+  chatModal.setAttribute("data-is-open", "false");
+
+  chatButton.removeEventListener("click", handleChatButtonClick);
+  chatButton.addEventListener("click", handleChatButtonClick);
+
   function handleChatButtonClick(e) {
-    console.log("Chat button clicked - handler function");
+    console.log("Chat button clicked");
     e.preventDefault();
-    
-    const isOpen = chatModal.getAttribute('data-is-open') === 'true';
-    console.log("Modal is currently:", isOpen ? "open" : "closed");
-    
-    // Always try to open the modal, even if we think it's open
-    // This handles cases where the modal was closed by other means
     showChatModal();
   }
-  
+
   function showChatModal() {
-    console.log("Showing chat modal");
-    
-    // First, try using Bootstrap's modal if available
-    if (typeof $ !== 'undefined' && typeof $.fn.modal !== 'undefined') {
-      try {
-        $(chatModal).modal('show');
-        console.log("Showing modal via Bootstrap");
-        chatModal.setAttribute('data-is-open', 'true');
-      } catch (err) {
-        console.error("Bootstrap modal error:", err);
-        showChatModalManually();
-      }
-    } else {
-      // If Bootstrap isn't available, use our manual approach
-      showChatModalManually();
+    console.log("Showing modal manually");
+    chatModal.style.display = "block";
+    chatModal.classList.add("show");
+    document.body.classList.add("modal-open");
+    chatModal.setAttribute("data-is-open", "true");
+
+    if (!document.querySelector(".modal-backdrop")) {
+      const backdrop = document.createElement("div");
+      backdrop.className = "modal-backdrop fade show";
+      document.body.appendChild(backdrop);
     }
-    
+
     // Scroll messages to bottom
     setTimeout(() => {
-      const messages = document.getElementById('chatbot-messages');
+      const messages = document.getElementById("chatbot-messages");
       if (messages) messages.scrollTop = messages.scrollHeight;
     }, 100);
   }
-  
-  function showChatModalManually() {
-    console.log("Showing modal manually");
-    chatModal.style.display = 'block';
-    chatModal.classList.add('show');
-    document.body.classList.add('modal-open');
-    chatModal.setAttribute('data-is-open', 'true');
-    
-    // Add backdrop if it doesn't exist
-    if (!document.querySelector('.modal-backdrop')) {
-      const backdrop = document.createElement('div');
-      backdrop.className = 'modal-backdrop fade show';
-      document.body.appendChild(backdrop);
-    }
-  }
-  
+
   // Add close handlers for all close buttons
   const closeButtons = chatModal.querySelectorAll('[data-dismiss="modal"]');
-  closeButtons.forEach(button => {
-    button.removeEventListener('click', closeChatModalManually);
-    button.addEventListener('click', closeChatModalManually);
+  closeButtons.forEach((button) => {
+    button.removeEventListener("click", closeChatModalManually);
+    button.addEventListener("click", closeChatModalManually);
   });
-  
-  // Close modal when clicking outside (if it's a Bootstrap modal)
-  chatModal.removeEventListener('click', handleModalBackdropClick);
-  chatModal.addEventListener('click', handleModalBackdropClick);
-  
+
+  // Close modal when clicking outside
+  chatModal.removeEventListener("click", handleModalBackdropClick);
+  chatModal.addEventListener("click", handleModalBackdropClick);
+
   function handleModalBackdropClick(e) {
-    // Only close if clicking directly on the modal background, not its contents
     if (e.target === chatModal) {
       closeChatModalManually();
     }
   }
-  
-  // Listen for Bootstrap modal events
-  chatModal.removeEventListener('hidden.bs.modal', handleModalHidden);
-  chatModal.addEventListener('hidden.bs.modal', handleModalHidden);
-  
-  chatModal.removeEventListener('shown.bs.modal', handleModalShown);
-  chatModal.addEventListener('shown.bs.modal', handleModalShown);
-  
-  function handleModalHidden() {
-    console.log("Modal hidden via Bootstrap");
-    chatModal.setAttribute('data-is-open', 'false');
-  }
-  
-  function handleModalShown() {
-    console.log("Modal shown via Bootstrap");
-    chatModal.setAttribute('data-is-open', 'true');
-  }
-  
+
   function closeChatModalManually() {
     console.log("Closing modal manually");
-    chatModal.style.display = 'none';
-    chatModal.classList.remove('show');
-    document.body.classList.remove('modal-open');
-    chatModal.setAttribute('data-is-open', 'false');
-    
-    // Remove backdrop
-    const backdrop = document.querySelector('.modal-backdrop');
+    chatModal.style.display = "none";
+    chatModal.classList.remove("show");
+    document.body.classList.remove("modal-open");
+    chatModal.setAttribute("data-is-open", "false");
+
+    const backdrop = document.querySelector(".modal-backdrop");
     if (backdrop) backdrop.remove();
   }
-  
-  // Setup chat interaction functionality
+
   setupChatInteraction();
 }
 
 function setupChatInteraction() {
   console.log("Setting up chat interaction");
-  
-  const sendButton = document.getElementById('chatbot-send');
-  const chatInput = document.getElementById('chatbot-input');
-  
+
+  const sendButton = document.getElementById("chatbot-send");
+  const chatInput = document.getElementById("chatbot-input");
+
   if (!sendButton || !chatInput) {
     console.error("Chat interaction elements not found!");
     return;
   }
-  
+
   // Remove existing listeners to prevent duplicates
-  sendButton.removeEventListener('click', sendChatbotMessage);
-  sendButton.addEventListener('click', sendChatbotMessage);
-  
-  chatInput.removeEventListener('keypress', handleChatInputKeypress);
-  chatInput.addEventListener('keypress', handleChatInputKeypress);
-  
+  sendButton.removeEventListener("click", sendChatbotMessage);
+  sendButton.addEventListener("click", sendChatbotMessage);
+
+  chatInput.removeEventListener("keypress", handleChatInputKeypress);
+  chatInput.addEventListener("keypress", handleChatInputKeypress);
+
   function handleChatInputKeypress(e) {
-    if (e.key === 'Enter' || e.which === 13) {
+    if (e.key === "Enter" || e.which === 13) {
       e.preventDefault();
       sendChatbotMessage();
     }
   }
-  
+
   function sendChatbotMessage() {
     const message = chatInput.value.trim();
-    
-    if (message === '') return;
-    
+
+    if (message === "") return;
+
     // Add user message to chat
-    addChatMessage('You', message, false);
-    
+    addChatMessage("You", message, false);
+
     // Clear input
-    chatInput.value = '';
-    
+    chatInput.value = "";
+
     // Show loading indicator
-    const loadingIndicator = document.getElementById('chatbot-loading');
-    if (loadingIndicator) loadingIndicator.classList.remove('d-none');
-    
+    const loadingIndicator = document.getElementById("chatbot-loading");
+    if (loadingIndicator) loadingIndicator.classList.remove("d-none");
+
     // Simulate response delay
     setTimeout(() => {
       // Hide loading indicator
-      if (loadingIndicator) loadingIndicator.classList.add('d-none');
-      
+      if (loadingIndicator) loadingIndicator.classList.add("d-none");
+
       // Add bot response
       processUserQuery(message);
     }, 700);
@@ -407,19 +359,19 @@ function setupChatInteraction() {
 }
 
 function addChatMessage(sender, content, isBot) {
-  const messagesContainer = document.getElementById('chatbot-messages');
+  const messagesContainer = document.getElementById("chatbot-messages");
   if (!messagesContainer) {
     console.error("Chat messages container not found!");
     return;
   }
-  
-  const messageDiv = document.createElement('div');
-  messageDiv.className = isBot ? 
-    'chatbot-message chatbot-response' : 
-    'chatbot-message user-message';
-  
-  let avatarIcon = isBot ? 'account_circle' : 'person';
-  
+
+  const messageDiv = document.createElement("div");
+  messageDiv.className = isBot
+    ? "chatbot-message chatbot-response"
+    : "chatbot-message user-message";
+
+  let avatarIcon = isBot ? "account_circle" : "person";
+
   messageDiv.innerHTML = `
     <div class="chatbot-avatar">
       <span class="material-icons">${avatarIcon}</span>
@@ -429,7 +381,7 @@ function addChatMessage(sender, content, isBot) {
       <div class="chatbot-content">${content}</div>
     </div>
   `;
-  
+
   messagesContainer.appendChild(messageDiv);
   messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
@@ -437,25 +389,41 @@ function addChatMessage(sender, content, isBot) {
 function processUserQuery(query) {
   // Simple example responses
   const lowercaseQuery = query.toLowerCase();
-  
-  let response = "I'm sorry, I don't have information about that. Try asking about your transactions or account.";
-  
-  if (lowercaseQuery.includes('largest') || lowercaseQuery.includes('biggest')) {
-    response = "Your largest transaction in the past month was a debit of ₦45,000.00 to account 1234567890 on April 15th.";
-  } else if (lowercaseQuery.includes('balance')) {
-    const balance = document.getElementById('current-balance')?.textContent || "unknown";
+
+  let response =
+    "I'm sorry, I don't have information about that. Try asking about your transactions or account.";
+
+  if (
+    lowercaseQuery.includes("largest") ||
+    lowercaseQuery.includes("biggest")
+  ) {
+    response =
+      "Your largest transaction in the past month was a debit of ₦45,000.00 to account 1234567890 on April 15th.";
+  } else if (lowercaseQuery.includes("balance")) {
+    const balance =
+      document.getElementById("current-balance")?.textContent || "unknown";
     response = `Your current account balance is ${balance}.`;
-  } else if (lowercaseQuery.includes('amazon') || lowercaseQuery.includes('transaction')) {
-    response = "I found 3 transactions related to Amazon in the past 30 days totaling ₦12,500.00.";
-  } else if (lowercaseQuery.includes('help') || lowercaseQuery.includes('what can you do')) {
-    response = "I can help you analyze your transaction history. Try asking questions like 'What was my largest expense last month?' or 'Show transactions to [merchant name]'.";
+  } else if (
+    lowercaseQuery.includes("amazon") ||
+    lowercaseQuery.includes("transaction")
+  ) {
+    response =
+      "I found 3 transactions related to Amazon in the past 30 days totaling ₦12,500.00.";
+  } else if (
+    lowercaseQuery.includes("help") ||
+    lowercaseQuery.includes("what can you do")
+  ) {
+    response =
+      "I can help you analyze your transaction history. Try asking questions like 'What was my largest expense last month?' or 'Show transactions to [merchant name]'.";
   }
-  
-  addChatMessage('Transaction Assistant', response, true);
+
+  addChatMessage("Transaction Assistant", response, true);
 }
 
 // Make sure to initialize when the document is fully loaded
-window.addEventListener('load', function() {
-  console.log("Window fully loaded - initializing chatbot again to ensure it's ready");
+window.addEventListener("load", function () {
+  console.log(
+    "Window fully loaded - initializing chatbot again to ensure it's ready"
+  );
   initializeChatbot();
 });
