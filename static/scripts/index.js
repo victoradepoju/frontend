@@ -427,3 +427,81 @@ window.addEventListener("load", function () {
   );
   initializeChatbot();
 });
+
+async function downloadReceipt(transactionId, element) {
+  // Prevent default link behavior
+  event.preventDefault();
+
+  // Get elements
+  const receiptIcon = element.querySelector(".receipt-icon");
+  const receiptText = element.querySelector(".receipt-text");
+  const spinner = element.querySelector(".receipt-spinner");
+
+  // Show loading state
+  receiptIcon.style.display = "none";
+  receiptText.style.display = "none";
+  spinner.style.display = "inline-block";
+
+  try {
+    // Make API request
+    const response = await fetch(
+      `http://34.72.19.177:4002/api/generate/receipt?id=${transactionId}`,
+      {
+        method: "POST",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Receipt generation failed");
+    }
+
+    // Get the blob from response
+    const blob = await response.blob();
+
+    // Create download link
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `receipt-${transactionId}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+
+    // Cleanup
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+  } catch (error) {
+    console.error("Error downloading receipt:", error);
+    // Show error notification
+    showNotification(
+      "Error downloading receipt. Please try again later.",
+      "error"
+    );
+  } finally {
+    // Reset UI state
+    receiptIcon.style.display = "inline-block";
+    receiptText.style.display = "inline-block";
+    spinner.style.display = "none";
+  }
+}
+
+// Helper function to show notifications
+function showNotification(message, type = "error") {
+  const alertDiv = document.createElement("div");
+  alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+  alertDiv.role = "alert";
+  alertDiv.innerHTML = `
+    ${message}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  `;
+
+  document
+    .querySelector("main.container")
+    .insertAdjacentElement("afterbegin", alertDiv);
+
+  // Auto dismiss after 5 seconds
+  setTimeout(() => {
+    alertDiv.remove();
+  }, 5000);
+}

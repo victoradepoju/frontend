@@ -156,10 +156,7 @@ limitations under the License.
                 <div class="row align-items-start">
                   <div class="col table-header-left">
                     <h4 class="card-header-title">Transaction History</h4>
-                    <button
-                      class="chatbot-button"
-                      id="chatbot-button"
-                    >
+                    <button class="chatbot-button" id="chatbot-button">
                       <span class="material-icons">chat</span>
                     </button>
                   </div>
@@ -259,10 +256,19 @@ limitations under the License.
                           <a
                             href="#"
                             class="receipt-a"
-                            onclick="downloadReceipt('{{ t.transactionId }}')"
+                            onclick="downloadReceipt('{{ t.transactionId }}', this)"
                           >
-                            <span class="material-icons">receipt</span> Download
-                            Receipt
+                            <span class="material-icons receipt-icon"
+                              >receipt</span
+                            >
+                            <span class="receipt-text">Download Receipt</span>
+                            <div
+                              class="spinner-border spinner-border-sm receipt-spinner"
+                              role="status"
+                              style="display: none"
+                            >
+                              <span class="sr-only">Loading...</span>
+                            </div>
                           </a>
                         </div>
                       </div>
@@ -651,7 +657,8 @@ limitations under the License.
                   <div class="chatbot-text">
                     <div class="chatbot-name">Anthos</div>
                     <div class="chatbot-content">
-                      Hello! I'm anthos. Ask me anything about your transactions.
+                      Hello! I'm anthos. Ask me anything about your
+                      transactions.
                     </div>
                   </div>
                 </div>
