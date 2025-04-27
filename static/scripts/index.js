@@ -266,6 +266,87 @@ $(function () {
   cb(start, end);
 });
 
+// Add download button click handler
+document
+  .querySelector(".download-button")
+  .addEventListener("click", downloadTransactionReport);
+
+async function downloadTransactionReport() {
+  const dateRange = $("#reportrange").data("daterangepicker");
+  const startDate = dateRange.startDate.format("YYYY-MM-DD");
+  const endDate = dateRange.endDate.format("YYYY-MM-DD");
+
+  console.log("Start Date:", startDate, "End Date:", endDate);
+
+  // Get account ID from the page
+  const accountId = document
+    .querySelector(".account-number")
+    .textContent.trim();
+
+  // Show loading state
+  const downloadButton = document.querySelector(".download-button");
+  const originalContent = downloadButton.innerHTML;
+  downloadButton.innerHTML = `
+    <div class="spinner-border spinner-border-sm" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+    Downloading...
+  `;
+  downloadButton.disabled = true;
+
+  try {
+    const response = await fetch(
+      "http://34.72.19.177:4002/api/generate/summary",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/pdf",
+        },
+        body: JSON.stringify({
+          accountid: accountId,
+          from: startDate,
+          to: endDate,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Report generation failed: ${response.status}`);
+    }
+
+    // Get the blob from response
+    const blob = await response.blob();
+
+    // Validate blob is PDF
+    if (blob.type !== "application/pdf") {
+      throw new Error("Invalid response format");
+    }
+
+    // Create download link
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `transaction-report-${startDate}-to-${endDate}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+
+    // Cleanup
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+  } catch (error) {
+    console.error("Error downloading report:", error);
+    showNotification(
+      "Error downloading transaction report. Please try again later.",
+      "error"
+    );
+  } finally {
+    // Reset button state
+    downloadButton.innerHTML = originalContent;
+    downloadButton.disabled = false;
+  }
+}
+
 // Handle dropdown menus
 $(document).on("click", ".actions-dropdown .material-icons", function (e) {
   e.stopPropagation(); // Prevents the click from bubbling up
