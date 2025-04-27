@@ -756,3 +756,165 @@ input {
   border: 1px solid #ced4da;
   cursor: pointer;
 }
+
+/* Chatbot Styles */
+#chatbot-button {
+  transition: all 0.2s ease;
+}
+
+#chatbot-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.chatbot-body {
+  padding: 0;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chatbot-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  background-color: #e2f1ec;
+  border-radius: 0.25rem 0.25rem 0 0;
+}
+
+.chatbot-message {
+  display: flex;
+  margin-bottom: 1rem;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.chatbot-avatar {
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+}
+
+.chatbot-avatar .material-icons {
+  font-size: 2rem;
+  color: #74897c;
+}
+
+.chatbot-text {
+  max-width: 80%;
+}
+
+.chatbot-name {
+  font-weight: 600;
+  font-size: 0.8rem;
+  margin-bottom: 0.25rem;
+  color: #74897c;
+}
+
+.chatbot-content {
+  background: white;
+  padding: 0.75rem 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  word-wrap: break-word;
+}
+
+.chatbot-response .chatbot-content {
+  border-top-left-radius: 0;
+  background-color: #e2f1ec;
+}
+
+.chatbot-input-container {
+  position: relative;
+  padding: 1rem;
+  border-top: 1px solid #dee2e6;
+  display: flex;
+  align-items: center;
+}
+
+#chatbot-input {
+  flex: 1;
+  border-radius: 2rem;
+  padding: 0.75rem 1.25rem;
+  border: 1px solid #ced4da;
+  transition: all 0.2s ease;
+}
+
+#chatbot-input:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+}
+
+#chatbot-send {
+  margin-left: 0.5rem;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+#chatbot-send:hover {
+  transform: scale(1.05);
+}
+
+.chatbot-loading {
+  position: absolute;
+  right: 2rem;
+  color: #6c757d;
+}
+
+/* Scrollbar styling for chatbot messages */
+.chatbot-messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chatbot-messages::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.chatbot-messages::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+.chatbot-messages::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Add to your CSS */
+.modal.fade .modal-dialog {
+  transition: transform 0.3s ease-out, opacity 0.3s ease;
+  transform: translateY(-20px);
+  opacity: 0;
+}
+
+.modal.show .modal-dialog {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.chatbot-message-user {
+  display: flex;
+  margin-bottom: 1rem;
+  justify-content: flex-end;
+  animation: fadeIn 0.3s ease;
+}
+
+.chatbot-message-user .chatbot-text {
+  text-align: right;
+}
+
+.chatbot-message-user .chatbot-content {
+  background-color: #008a20;
+  color: white;
+  border-top-right-radius: 0;
+}
+
+.chatbot-message-user .chatbot-avatar .material-icons {
+  color: #008a20;
+}

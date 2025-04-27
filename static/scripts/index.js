@@ -272,3 +272,158 @@ $(document).on("click", ".actions-dropdown .material-icons", function (e) {
 $(document).click(function () {
   $(".dropdown-content").hide();
 });
+
+// Chatbot functionality
+$(document).ready(function() {
+  // Initialize chatbot modal
+  $('#chatbot-button').click(function() {
+    $('#chatbotModal').modal('show');
+    // Scroll to bottom of messages when opening
+    setTimeout(() => {
+      const messages = document.getElementById('chatbot-messages');
+      messages.scrollTop = messages.scrollHeight;
+    }, 100);
+  });
+
+  // Handle sending messages
+  $('#chatbot-send').click(sendChatbotMessage);
+  $('#chatbot-input').keypress(function(e) {
+    if (e.which === 13) { // Enter key
+      sendChatbotMessage();
+    }
+  });
+
+  function sendChatbotMessage() {
+    const input = $('#chatbot-input');
+    const message = input.val().trim();
+    
+    if (message) {
+      // Add user message to chat
+      addChatbotMessage(message, 'user');
+      input.val('');
+      
+      // Show loading indicator
+      $('#chatbot-loading').removeClass('d-none');
+      $('#chatbot-send').prop('disabled', true);
+      
+      // Simulate API call (in a real app, this would be an actual API call)
+      setTimeout(() => {
+        // Generate a response based on the message
+        const response = generateChatbotResponse(message);
+        addChatbotMessage(response, 'bot');
+        
+        // Hide loading indicator
+        $('#chatbot-loading').addClass('d-none');
+        $('#chatbot-send').prop('disabled', false);
+      }, 1000);
+    }
+  }
+
+  function addChatbotMessage(content, sender) {
+    const messages = $('#chatbot-messages');
+    const messageClass = sender === 'user' ? 'chatbot-message-user' : 'chatbot-message chatbot-response';
+    
+    const messageHtml = `
+      <div class="${messageClass}">
+        ${sender === 'user' ? '' : '<div class="chatbot-avatar"><span class="material-icons">account_circle</span></div>'}
+        <div class="chatbot-text">
+          ${sender === 'user' ? '' : '<div class="chatbot-name">Transaction Assistant</div>'}
+          <div class="chatbot-content">${content}</div>
+        </div>
+        ${sender === 'user' ? '<div class="chatbot-avatar"><span class="material-icons">person</span></div>' : ''}
+      </div>
+    `;
+    
+    messages.append(messageHtml);
+    
+    // Scroll to bottom
+    messages.scrollTop(messages[0].scrollHeight);
+  }
+
+  function generateChatbotResponse(message) {
+    // This is a simplified version - in a real app, you'd connect to an AI service
+    const lowerMessage = message.toLowerCase();
+    
+    if (lowerMessage.includes('largest') || lowerMessage.includes('biggest')) {
+      return analyzeLargestTransaction();
+    } else if (lowerMessage.includes('recent') || lowerMessage.includes('latest')) {
+      return analyzeRecentTransactions();
+    } else if (lowerMessage.includes('total') || lowerMessage.includes('sum') || lowerMessage.includes('spent')) {
+      return analyzeTotalSpending(message);
+    } else if (lowerMessage.includes('balance')) {
+      return `Your current balance is ${$('#current-balance').text()}.`;
+    } else {
+      return "I can help you analyze your transactions. Try asking about your largest payment, recent transactions, or total spending for a specific period.";
+    }
+  }
+
+  function analyzeLargestTransaction() {
+    // Analyze the transaction table to find the largest transaction
+    let maxAmount = 0;
+    let maxDescription = '';
+    
+    $('.transaction-amount').each(function() {
+      const amountText = $(this).text().replace(/[^\d.-]/g, '');
+      const amount = parseFloat(amountText);
+      if (Math.abs(amount) > Math.abs(maxAmount)) {
+        maxAmount = amount;
+        const date = $(this).closest('tr').find('.transaction-date').text().trim();
+        const account = $(this).closest('tr').find('.transaction-account').text().trim();
+        const label = $(this).closest('tr').find('.transaction-label').text().trim();
+        maxDescription = `${date} - ${label || 'No label'} (${account})`;
+      }
+    });
+    
+    if (maxAmount > 0) {
+      return `Your largest transaction was a credit of ${formatChatbotCurrency(Math.abs(maxAmount))} on ${maxDescription}.`;
+    } else if (maxAmount < 0) {
+      return `Your largest transaction was a debit of ${formatChatbotCurrency(Math.abs(maxAmount))} on ${maxDescription}.`;
+    } else {
+      return "I couldn't find any transactions to analyze.";
+    }
+  }
+
+  function analyzeRecentTransactions() {
+    // Get the 3 most recent transactions
+    const recent = [];
+    $('tbody#transaction-list tr').slice(0, 3).each(function() {
+      const date = $(this).find('.transaction-date').text().trim();
+      const amount = $(this).find('.transaction-amount').text().trim();
+      const label = $(this).find('.transaction-label').text().trim() || 'No label';
+      recent.push(`${date}: ${amount} - ${label}`);
+    });
+    
+    if (recent.length > 0) {
+      return `Your most recent transactions are:<br><ul>${
+        recent.map(t => `<li>${t}</li>`).join('')
+      }</ul>`;
+    } else {
+      return "I couldn't find any recent transactions.";
+    }
+  }
+
+  function analyzeTotalSpending(message) {
+    // Calculate total spending based on the time period mentioned
+    let period = 'all time';
+    if (message.includes('month')) period = 'this month';
+    if (message.includes('week')) period = 'this week';
+    if (message.includes('year')) period = 'this year';
+    
+    let total = 0;
+    $('.transaction-amount-debit').each(function() {
+      const amountText = $(this).text().replace(/[^\d.-]/g, '');
+      total += parseFloat(amountText);
+    });
+    
+    return `Your total spending ${period} is ${formatChatbotCurrency(Math.abs(total))}.`;
+  }
+
+  // Helper function to format currency (assuming this matches your existing format)
+  function formatChatbotCurrency(amount) {
+    return new Intl.NumberFormat('en-NG', {
+      style: 'currency',
+      currency: 'NGN',
+      minimumFractionDigits: 2
+    }).format(amount);
+  }
+});
