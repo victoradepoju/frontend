@@ -729,6 +729,17 @@ input {
   align-items: center;
 }
 
+.receipt-spinner {
+  width: 1rem;
+  height: 1rem;
+  color: #6c757d;
+}
+
+.receipt-icon,
+.receipt-text {
+  display: inline-block;
+}
+
 .material-icons {
   cursor: pointer;
 }
