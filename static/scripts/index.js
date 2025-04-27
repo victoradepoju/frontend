@@ -273,12 +273,17 @@ $(document).click(function () {
   $(".dropdown-content").hide();
 });
 
-// Chatbot functionality
-$(document).ready(function() {
+// Add this at the very end of your existing JavaScript file
+// This ensures it runs after DOM is loaded but doesn't interfere with existing code
+
+// Chatbot implementation (self-contained)
+(function() {
+  // Only initialize if the chatbot elements exist
+  if (!document.getElementById('chatbot-button')) return;
+
   // Initialize chatbot modal
   $('#chatbot-button').click(function() {
     $('#chatbotModal').modal('show');
-    // Scroll to bottom of messages when opening
     setTimeout(() => {
       const messages = document.getElementById('chatbot-messages');
       messages.scrollTop = messages.scrollHeight;
@@ -288,9 +293,7 @@ $(document).ready(function() {
   // Handle sending messages
   $('#chatbot-send').click(sendChatbotMessage);
   $('#chatbot-input').keypress(function(e) {
-    if (e.which === 13) { // Enter key
-      sendChatbotMessage();
-    }
+    if (e.which === 13) sendChatbotMessage();
   });
 
   function sendChatbotMessage() {
@@ -298,21 +301,15 @@ $(document).ready(function() {
     const message = input.val().trim();
     
     if (message) {
-      // Add user message to chat
       addChatbotMessage(message, 'user');
       input.val('');
       
-      // Show loading indicator
       $('#chatbot-loading').removeClass('d-none');
       $('#chatbot-send').prop('disabled', true);
       
-      // Simulate API call (in a real app, this would be an actual API call)
       setTimeout(() => {
-        // Generate a response based on the message
         const response = generateChatbotResponse(message);
         addChatbotMessage(response, 'bot');
-        
-        // Hide loading indicator
         $('#chatbot-loading').addClass('d-none');
         $('#chatbot-send').prop('disabled', false);
       }, 1000);
@@ -335,13 +332,10 @@ $(document).ready(function() {
     `;
     
     messages.append(messageHtml);
-    
-    // Scroll to bottom
     messages.scrollTop(messages[0].scrollHeight);
   }
 
   function generateChatbotResponse(message) {
-    // This is a simplified version - in a real app, you'd connect to an AI service
     const lowerMessage = message.toLowerCase();
     
     if (lowerMessage.includes('largest') || lowerMessage.includes('biggest')) {
@@ -358,7 +352,6 @@ $(document).ready(function() {
   }
 
   function analyzeLargestTransaction() {
-    // Analyze the transaction table to find the largest transaction
     let maxAmount = 0;
     let maxDescription = '';
     
@@ -384,7 +377,6 @@ $(document).ready(function() {
   }
 
   function analyzeRecentTransactions() {
-    // Get the 3 most recent transactions
     const recent = [];
     $('tbody#transaction-list tr').slice(0, 3).each(function() {
       const date = $(this).find('.transaction-date').text().trim();
@@ -403,7 +395,6 @@ $(document).ready(function() {
   }
 
   function analyzeTotalSpending(message) {
-    // Calculate total spending based on the time period mentioned
     let period = 'all time';
     if (message.includes('month')) period = 'this month';
     if (message.includes('week')) period = 'this week';
@@ -418,7 +409,6 @@ $(document).ready(function() {
     return `Your total spending ${period} is ${formatChatbotCurrency(Math.abs(total))}.`;
   }
 
-  // Helper function to format currency (assuming this matches your existing format)
   function formatChatbotCurrency(amount) {
     return new Intl.NumberFormat('en-NG', {
       style: 'currency',
@@ -426,4 +416,4 @@ $(document).ready(function() {
       minimumFractionDigits: 2
     }).format(amount);
   }
-});
+})();
