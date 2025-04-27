@@ -487,20 +487,30 @@ async function downloadReceipt(transactionId, element) {
   spinner.style.display = "inline-block";
 
   try {
-    // Make API request
+    // Make API request with CORS headers
     const response = await fetch(
       `http://34.72.19.177:4002/api/generate/receipt?id=${transactionId}`,
       {
         method: "POST",
+        mode: "cors", // Enable CORS
+        credentials: "same-origin",
+        headers: {
+          Accept: "application/pdf",
+        },
       }
     );
 
     if (!response.ok) {
-      throw new Error("Receipt generation failed");
+      throw new Error(`Receipt generation failed: ${response.status}`);
     }
 
     // Get the blob from response
     const blob = await response.blob();
+
+    // Validate blob is PDF
+    if (blob.type !== "application/pdf") {
+      throw new Error("Invalid response format");
+    }
 
     // Create download link
     const url = window.URL.createObjectURL(blob);
@@ -515,11 +525,14 @@ async function downloadReceipt(transactionId, element) {
     document.body.removeChild(a);
   } catch (error) {
     console.error("Error downloading receipt:", error);
-    // Show error notification
-    showNotification(
-      "Error downloading receipt. Please try again later.",
-      "error"
-    );
+
+    // Show specific error message based on error type
+    let errorMessage = "Error downloading receipt. Please try again later.";
+    if (error.message.includes("CORS")) {
+      errorMessage = "Server connection error. Please contact support.";
+    }
+
+    showNotification(errorMessage, "error");
   } finally {
     // Reset UI state
     receiptIcon.style.display = "inline-block";
