@@ -273,181 +273,64 @@ $(document).click(function () {
   $(".dropdown-content").hide();
 });
 
-// Add this at the very end of your existing JavaScript file
-// This ensures it runs after DOM is loaded but doesn't interfere with existing code
-
-// Chatbot implementation (self-contained)
-// Chatbot implementation (self-contained)
 (function() {
-  // Wait until DOM is fully loaded
-  document.addEventListener("DOMContentLoaded", function() {
+  // Maximum number of times to check for dependencies
+  const MAX_RETRIES = 3;
+  let retryCount = 0;
+
+  function initializeChatbot() {
     // Only initialize if the chatbot elements exist
-    if (!document.getElementById('chatbot-button')) return;
-
-    // Check if jQuery and Bootstrap are loaded
-    function checkDependencies() {
-      if (typeof $ === 'undefined') {
-        console.error('jQuery is not loaded');
-        return false;
-      }
-      if (typeof $.fn.modal === 'undefined') {
-        console.error('Bootstrap modal plugin is not loaded');
-        return false;
-      }
-      return true;
+    if (!document.getElementById('chatbot-button')) {
+      console.log('Chatbot elements not found');
+      return;
     }
 
-    // Initialize chatbot only if dependencies are loaded
+    // Initialize chatbot modal
+    $('#chatbot-button').click(function() {
+      $('#chatbotModal').modal('show');
+      setTimeout(() => {
+        const messages = document.getElementById('chatbot-messages');
+        if (messages) messages.scrollTop = messages.scrollHeight;
+      }, 100);
+    });
+
+    // Rest of your chatbot code...
+    // [Keep all the existing chatbot functions here]
+  }
+
+  function checkDependencies() {
+    if (typeof $ === 'undefined') {
+      console.error('jQuery is not loaded');
+      return false;
+    }
+    if (typeof $.fn.modal === 'undefined') {
+      console.error('Bootstrap modal plugin is not loaded');
+      return false;
+    }
+    return true;
+  }
+
+  function tryInitialize() {
     if (checkDependencies()) {
+      console.log('All dependencies loaded, initializing chatbot');
       initializeChatbot();
+    } else if (retryCount < MAX_RETRIES) {
+      retryCount++;
+      console.log(`Retrying initialization (attempt ${retryCount})`);
+      setTimeout(tryInitialize, 500);
     } else {
-      console.log('Waiting for dependencies to load...');
-      // Try again after a short delay if dependencies might load later
-      setTimeout(function() {
-        if (checkDependencies()) {
-          initializeChatbot();
-        } else {
-          console.error('Required dependencies not loaded - chatbot disabled');
-        }
-      }, 1000);
+      console.error('Failed to load required dependencies after multiple attempts - chatbot disabled');
+      // Optionally show a message to the user
+      $('#chatbot-button').hide().after(
+        '<div class="alert alert-warning mt-2">Chat feature is currently unavailable</div>'
+      );
     }
+  }
 
-    function initializeChatbot() {
-      // Initialize chatbot modal
-      $('#chatbot-button').click(function() {
-        $('#chatbotModal').modal('show');
-        setTimeout(() => {
-          const messages = document.getElementById('chatbot-messages');
-          if (messages) messages.scrollTop = messages.scrollHeight;
-        }, 100);
-      });
-
-      // Handle sending messages
-      $('#chatbot-send').click(sendChatbotMessage);
-      $('#chatbot-input').keypress(function(e) {
-        if (e.which === 13) sendChatbotMessage();
-      });
-
-      function sendChatbotMessage() {
-        const input = $('#chatbot-input');
-        const message = input.val().trim();
-        
-        if (message) {
-          addChatbotMessage(message, 'user');
-          input.val('');
-          
-          $('#chatbot-loading').removeClass('d-none');
-          $('#chatbot-send').prop('disabled', true);
-          
-          setTimeout(() => {
-            const response = generateChatbotResponse(message);
-            addChatbotMessage(response, 'bot');
-            $('#chatbot-loading').addClass('d-none');
-            $('#chatbot-send').prop('disabled', false);
-          }, 1000);
-        }
-      }
-
-      function addChatbotMessage(content, sender) {
-        const messages = $('#chatbot-messages');
-        const messageClass = sender === 'user' ? 'chatbot-message-user' : 'chatbot-message chatbot-response';
-        
-        const messageHtml = `
-          <div class="${messageClass}">
-            ${sender === 'user' ? '' : '<div class="chatbot-avatar"><span class="material-icons">account_circle</span></div>'}
-            <div class="chatbot-text">
-              ${sender === 'user' ? '' : '<div class="chatbot-name">Transaction Assistant</div>'}
-              <div class="chatbot-content">${content}</div>
-            </div>
-            ${sender === 'user' ? '<div class="chatbot-avatar"><span class="material-icons">person</span></div>' : ''}
-          </div>
-        `;
-        
-        messages.append(messageHtml);
-        messages.scrollTop(messages[0].scrollHeight);
-      }
-
-      function generateChatbotResponse(message) {
-        const lowerMessage = message.toLowerCase();
-        
-        if (lowerMessage.includes('largest') || lowerMessage.includes('biggest')) {
-          return analyzeLargestTransaction();
-        } else if (lowerMessage.includes('recent') || lowerMessage.includes('latest')) {
-          return analyzeRecentTransactions();
-        } else if (lowerMessage.includes('total') || lowerMessage.includes('sum') || lowerMessage.includes('spent')) {
-          return analyzeTotalSpending(message);
-        } else if (lowerMessage.includes('balance')) {
-          return `Your current balance is ${$('#current-balance').text()}.`;
-        } else {
-          return "I can help you analyze your transactions. Try asking about your largest payment, recent transactions, or total spending for a specific period.";
-        }
-      }
-
-      function analyzeLargestTransaction() {
-        let maxAmount = 0;
-        let maxDescription = '';
-        
-        $('.transaction-amount').each(function() {
-          const amountText = $(this).text().replace(/[^\d.-]/g, '');
-          const amount = parseFloat(amountText);
-          if (Math.abs(amount) > Math.abs(maxAmount)) {
-            maxAmount = amount;
-            const date = $(this).closest('tr').find('.transaction-date').text().trim();
-            const account = $(this).closest('tr').find('.transaction-account').text().trim();
-            const label = $(this).closest('tr').find('.transaction-label').text().trim();
-            maxDescription = `${date} - ${label || 'No label'} (${account})`;
-          }
-        });
-        
-        if (maxAmount > 0) {
-          return `Your largest transaction was a credit of ${formatChatbotCurrency(Math.abs(maxAmount))} on ${maxDescription}.`;
-        } else if (maxAmount < 0) {
-          return `Your largest transaction was a debit of ${formatChatbotCurrency(Math.abs(maxAmount))} on ${maxDescription}.`;
-        } else {
-          return "I couldn't find any transactions to analyze.";
-        }
-      }
-
-      function analyzeRecentTransactions() {
-        const recent = [];
-        $('tbody#transaction-list tr').slice(0, 3).each(function() {
-          const date = $(this).find('.transaction-date').text().trim();
-          const amount = $(this).find('.transaction-amount').text().trim();
-          const label = $(this).find('.transaction-label').text().trim() || 'No label';
-          recent.push(`${date}: ${amount} - ${label}`);
-        });
-        
-        if (recent.length > 0) {
-          return `Your most recent transactions are:<br><ul>${
-            recent.map(t => `<li>${t}</li>`).join('')
-          }</ul>`;
-        } else {
-          return "I couldn't find any recent transactions.";
-        }
-      }
-
-      function analyzeTotalSpending(message) {
-        let period = 'all time';
-        if (message.includes('month')) period = 'this month';
-        if (message.includes('week')) period = 'this week';
-        if (message.includes('year')) period = 'this year';
-        
-        let total = 0;
-        $('.transaction-amount-debit').each(function() {
-          const amountText = $(this).text().replace(/[^\d.-]/g, '');
-          total += parseFloat(amountText);
-        });
-        
-        return `Your total spending ${period} is ${formatChatbotCurrency(Math.abs(total))}.`;
-      }
-
-      function formatChatbotCurrency(amount) {
-        return new Intl.NumberFormat('en-NG', {
-          style: 'currency',
-          currency: 'NGN',
-          minimumFractionDigits: 2
-        }).format(amount);
-      }
-    }
-  });
+  // Start the initialization process when DOM is ready
+  if (document.readyState !== 'loading') {
+    tryInitialize();
+  } else {
+    document.addEventListener('DOMContentLoaded', tryInitialize);
+  }
 })();

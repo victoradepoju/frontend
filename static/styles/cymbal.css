@@ -937,7 +937,7 @@ input {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #4a6cf7;
+  background-color: #008a20;
   color: white;
   border: none;
   border-radius: 50%;
@@ -953,7 +953,7 @@ input {
 }
 
 .chatbot-button:hover {
-  background-color: #3b5de7;
+  background-color: #006200;
   transform: scale(1.05);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
 }
