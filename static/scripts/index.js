@@ -229,189 +229,146 @@ document.addEventListener("DOMContentLoaded", function (event) {
   RefreshModals();
 });
 
-// Debug function to check if elements exist and events are binding
-function debugChatbot() {
-  console.log("Debugging chatbot initialization...");
-  
-  // Check if button exists
-  const chatButton = document.getElementById('chatbot-button');
-  console.log("Chat button exists:", !!chatButton);
-  
-  // Check if modal exists
-  const chatModal = document.getElementById('chatbotModal');
-  console.log("Chat modal exists:", !!chatModal);
-  
-  // Check jQuery and Bootstrap
-  console.log("jQuery loaded:", typeof $ !== 'undefined');
-  console.log("Bootstrap modal plugin loaded:", typeof $.fn.modal !== 'undefined');
-  
-  // Log button properties
-  if (chatButton) {
-    console.log("Button visibility:", window.getComputedStyle(chatButton).display);
-    console.log("Button position:", chatButton.getBoundingClientRect());
-    
-    // Force a click handler for testing
-    chatButton.addEventListener('click', function() {
-      console.log("Direct click handler fired");
-      if (chatModal && typeof $.fn.modal !== 'undefined') {
-        $('#chatbotModal').modal('show');
-      } else {
-        alert("Chat functionality is currently unavailable");
-      }
-    });
-  }
-}
-
-// Our improved chatbot initialization
 document.addEventListener('DOMContentLoaded', function() {
   console.log("DOM content loaded event fired");
   
-  // First run the debugger
-  debugChatbot();
-  
-  // Wait a bit and try again to catch any delayed loading issues
-  setTimeout(debugChatbot, 1000);
-  
-  // Direct approach without waiting for jQuery
+  // First try direct DOM approach without relying on Bootstrap
   const chatButton = document.getElementById('chatbot-button');
-  if (chatButton) {
+  const chatModal = document.getElementById('chatbotModal');
+  
+  if (chatButton && chatModal) {
+    // Direct DOM approach
     chatButton.addEventListener('click', function(e) {
-      console.log("Chat button clicked via direct event listener");
+      console.log("Chat button clicked");
       e.preventDefault();
-      e.stopPropagation();
       
-      const chatModal = document.getElementById('chatbotModal');
-      if (chatModal) {
-        if (typeof $ !== 'undefined' && typeof $.fn.modal !== 'undefined') {
-          $('#chatbotModal').modal('show');
-        } else {
-          // Fallback to showing the modal without Bootstrap
-          chatModal.style.display = 'block';
-        }
-      }
-    });
-  }
-  
-  // Add a backup global click handler
-  document.addEventListener('click', function(e) {
-    if (e.target && (e.target.id === 'chatbot-button' || e.target.closest('#chatbot-button'))) {
-      console.log("Chat button clicked via global click listener");
-      const chatModal = document.getElementById('chatbotModal');
-      if (chatModal && typeof $ !== 'undefined' && typeof $.fn.modal !== 'undefined') {
+      // Try Bootstrap modal if available
+      if (typeof $ !== 'undefined' && typeof $.fn.modal !== 'undefined') {
         $('#chatbotModal').modal('show');
+      } else {
+        // Fallback to simple show/hide
+        chatModal.style.display = 'block';
+        chatModal.classList.add('show');
+        document.body.classList.add('modal-open');
+        
+        // Add backdrop
+        const backdrop = document.createElement('div');
+        backdrop.className = 'modal-backdrop fade show';
+        document.body.appendChild(backdrop);
       }
-    }
-  });
-  
-  // Wait for jQuery and Bootstrap before setting up the rest of the chatbot
-  function waitForBootstrap() {
-    if (typeof $ !== 'undefined' && typeof $.fn.modal !== 'undefined') {
-      console.log("jQuery and Bootstrap modal plugin loaded, initializing chatbot");
-      initializeChatbot();
-    } else {
-      console.log("Waiting for jQuery and Bootstrap...");
-      setTimeout(waitForBootstrap, 100);
+      
+      // Scroll messages to bottom
+      const messages = document.getElementById('chatbot-messages');
+      if (messages) messages.scrollTop = messages.scrollHeight;
+    });
+    
+    // Add close handlers for fallback approach
+    const closeButtons = chatModal.querySelectorAll('[data-dismiss="modal"]');
+    closeButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        closeChatModal();
+      });
+    });
+    
+    // Close modal when clicking outside
+    window.addEventListener('click', function(e) {
+      if (e.target === chatModal) {
+        closeChatModal();
+      }
+    });
+    
+    function closeChatModal() {
+      chatModal.style.display = 'none';
+      chatModal.classList.remove('show');
+      document.body.classList.remove('modal-open');
+      
+      // Remove backdrop
+      const backdrop = document.querySelector('.modal-backdrop');
+      if (backdrop) backdrop.remove();
     }
   }
-
-  function initializeChatbot() {
-    // Initialize chatbot modal the jQuery way
-    $('#chatbot-button').off('click').on('click', function() {
-      console.log("Chat button clicked via jQuery handler");
-      $('#chatbotModal').modal('show');
-      setTimeout(() => {
-        const messages = document.getElementById('chatbot-messages');
-        if (messages) messages.scrollTop = messages.scrollHeight;
-      }, 100);
-    });
-
-    // Handle sending messages
-    $('#chatbot-send').click(function() {
-      sendChatbotMessage();
-    });
-
-    $('#chatbot-input').keypress(function(e) {
+  
+  // Setup chat functionality
+  const sendButton = document.getElementById('chatbot-send');
+  const chatInput = document.getElementById('chatbot-input');
+  
+  if (sendButton && chatInput) {
+    sendButton.addEventListener('click', sendChatbotMessage);
+    chatInput.addEventListener('keypress', function(e) {
       if (e.which === 13) {
         sendChatbotMessage();
       }
     });
-
-    function sendChatbotMessage() {
-      const input = document.getElementById('chatbot-input');
-      const message = input.value.trim();
+  }
+  
+  function sendChatbotMessage() {
+    const input = document.getElementById('chatbot-input');
+    const message = input.value.trim();
+    
+    if (message === '') return;
+    
+    // Add user message to chat
+    addChatMessage('You', message, false);
+    
+    // Clear input
+    input.value = '';
+    
+    // Show loading indicator
+    const loadingIndicator = document.getElementById('chatbot-loading');
+    if (loadingIndicator) loadingIndicator.classList.remove('d-none');
+    
+    // Simulate response delay
+    setTimeout(() => {
+      // Hide loading indicator
+      if (loadingIndicator) loadingIndicator.classList.add('d-none');
       
-      if (message === '') return;
-      
-      // Add user message to chat
-      addChatMessage('You', message, false);
-      
-      // Clear input
-      input.value = '';
-      
-      // Show loading indicator
-      $('#chatbot-loading').removeClass('d-none');
-      
-      // Simulate response delay (this would be an API call in production)
-      setTimeout(() => {
-        // Hide loading indicator
-        $('#chatbot-loading').addClass('d-none');
-        
-        // Add bot response
-        processUserQuery(message);
-      }, 700);
-    }
-
-    function addChatMessage(sender, content, isBot) {
-      const messagesContainer = document.getElementById('chatbot-messages');
-      
-      const messageDiv = document.createElement('div');
-      messageDiv.className = isBot ? 
-        'chatbot-message chatbot-response' : 
-        'chatbot-message user-message';
-      
-      let avatarIcon = isBot ? 'account_circle' : 'person';
-      
-      messageDiv.innerHTML = `
-        <div class="chatbot-avatar">
-          <span class="material-icons">${avatarIcon}</span>
-        </div>
-        <div class="chatbot-text">
-          <div class="chatbot-name">${sender}</div>
-          <div class="chatbot-content">${content}</div>
-        </div>
-      `;
-      
-      messagesContainer.appendChild(messageDiv);
-      messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    }
-
-    function processUserQuery(query) {
-      // Simple example responses - in a real app, this would connect to a backend
-      const lowercaseQuery = query.toLowerCase();
-      
-      let response = "I'm sorry, I don't have information about that. Try asking about your transactions or account.";
-      
-      if (lowercaseQuery.includes('largest') || lowercaseQuery.includes('biggest')) {
-        response = "Your largest transaction in the past month was a debit of ₦45,000.00 to account 1234567890 on April 15th.";
-      } else if (lowercaseQuery.includes('balance')) {
-        const balance = document.getElementById('current-balance').textContent;
-        response = `Your current account balance is ${balance}.`;
-      } else if (lowercaseQuery.includes('amazon') || lowercaseQuery.includes('transaction')) {
-        response = "I found 3 transactions related to Amazon in the past 30 days totaling ₦12,500.00.";
-      } else if (lowercaseQuery.includes('help') || lowercaseQuery.includes('what can you do')) {
-        response = "I can help you analyze your transaction history. Try asking questions like 'What was my largest expense last month?' or 'Show transactions to [merchant name]'.";
-      }
-      
-      addChatMessage('Transaction Assistant', response, true);
-    }
+      // Add bot response
+      processUserQuery(message);
+    }, 700);
   }
 
-  // Start waiting for Bootstrap to load
-  waitForBootstrap();
-});
+  function addChatMessage(sender, content, isBot) {
+    const messagesContainer = document.getElementById('chatbot-messages');
+    if (!messagesContainer) return;
+    
+    const messageDiv = document.createElement('div');
+    messageDiv.className = isBot ? 
+      'chatbot-message chatbot-response' : 
+      'chatbot-message user-message';
+    
+    let avatarIcon = isBot ? 'account_circle' : 'person';
+    
+    messageDiv.innerHTML = `
+      <div class="chatbot-avatar">
+        <span class="material-icons">${avatarIcon}</span>
+      </div>
+      <div class="chatbot-text">
+        <div class="chatbot-name">${sender}</div>
+        <div class="chatbot-content">${content}</div>
+      </div>
+    `;
+    
+    messagesContainer.appendChild(messageDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  }
 
-// Add a script load event to ensure everything is loaded
-window.addEventListener('load', function() {
-  console.log("Window fully loaded");
-  debugChatbot();
+  function processUserQuery(query) {
+    // Simple example responses
+    const lowercaseQuery = query.toLowerCase();
+    
+    let response = "I'm sorry, I don't have information about that. Try asking about your transactions or account.";
+    
+    if (lowercaseQuery.includes('largest') || lowercaseQuery.includes('biggest')) {
+      response = "Your largest transaction in the past month was a debit of ₦45,000.00 to account 1234567890 on April 15th.";
+    } else if (lowercaseQuery.includes('balance')) {
+      const balance = document.getElementById('current-balance')?.textContent || "unknown";
+      response = `Your current account balance is ${balance}.`;
+    } else if (lowercaseQuery.includes('amazon') || lowercaseQuery.includes('transaction')) {
+      response = "I found 3 transactions related to Amazon in the past 30 days totaling ₦12,500.00.";
+    } else if (lowercaseQuery.includes('help') || lowercaseQuery.includes('what can you do')) {
+      response = "I can help you analyze your transaction history. Try asking questions like 'What was my largest expense last month?' or 'Show transactions to [merchant name]'.";
+    }
+    
+    addChatMessage('Transaction Assistant', response, true);
+  }
 });
