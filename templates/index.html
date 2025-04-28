@@ -188,6 +188,7 @@ limitations under the License.
               {% elif history|length == 0 %}
               <h4 class="card-table-header">No Transactions Found</h4>
               {% else %}
+              <div style="display: none;" id="history-log">{history}</div>
               <table class="table table-sm table-nowrap card-table">
                 <thead class="text-uppercase">
                   <tr>
