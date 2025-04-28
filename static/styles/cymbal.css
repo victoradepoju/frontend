@@ -589,6 +589,7 @@ form button {
   vertical-align: middle;
 }
 
+
 /*FORMS */
 .form-control:focus {
   background-color: white !important;
@@ -757,8 +758,8 @@ input {
 }
 
 .current-balance {
+  font-size: 16px;
   color: #6c757d;
-  font-size: 30px;
   letter-spacing: 1px;
   display: flex;
   align-items: baseline;
@@ -766,6 +767,7 @@ input {
 }
 
 #current-balance {
+  font-size: 30px;
   color: #212529;
   font-weight: 600;
 }
@@ -1061,4 +1063,25 @@ input {
 .hidden-balance {
   font-family: monospace;
   letter-spacing: 2px;
+}
+
+.dropdown-menu-end {
+  right: 0;
+  left: auto;
+}
+
+.nav-item.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-item {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa;
 }
