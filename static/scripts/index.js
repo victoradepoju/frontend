@@ -644,5 +644,5 @@ function showNotification(message, type = "error") {
   }, 5000);
 }
 
-const historyLog = document.querySelector("#history-log");
-console.log(historyLog.textContent)
+// const historyLog = document.querySelector("#history-log");
+// console.log(historyLog.textContent)
