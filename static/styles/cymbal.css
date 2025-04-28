@@ -1011,7 +1011,7 @@ input {
 
 .page-info {
   padding: 0.5rem 1rem;
-  color: #6c757d;
+  color: #a3fd8c;
 }
 
 .page-link {
@@ -1026,6 +1026,32 @@ input {
 }
 
 .page-item.disabled .page-link {
-  color: #6c757d;
+  color: #6c7d6f;
   pointer-events: none;
+}
+
+.balance-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toggle-balance-btn {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: #008a20;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+
+.toggle-balance-btn:hover {
+  color: #a3fd8c;
+}
+
+.hidden-balance {
+  font-family: monospace;
+  letter-spacing: 2px;
 }
