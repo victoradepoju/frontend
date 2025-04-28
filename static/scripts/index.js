@@ -542,7 +542,7 @@ function addChatMessage(sender, content, isBot) {
     ? "chatbot-message chatbot-response"
     : "chatbot-message user-message";
 
-  let avatarIcon = isBot ? "account_circle" : "person";
+  let avatarIcon = isBot ? "smart_toy" : "account_circle";
 
   messageDiv.innerHTML = `
     <div class="chatbot-avatar">
