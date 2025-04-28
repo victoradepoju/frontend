@@ -492,6 +492,14 @@ bottom: 10px;
   .auth-hero-section {
     display: none;
   }
+
+  .card-table-header {
+    flex-direction: column;
+  }
+  .download-trans-container {
+    flex-direction: column;
+    align-items: normal;
+  }
 }
 
 /* BUTTONS */
@@ -750,7 +758,7 @@ input {
 
 .current-balance {
   color: #6c757d;
-  font-size: 14px;
+  font-size: 30px;
   letter-spacing: 1px;
   display: flex;
   align-items: baseline;
@@ -793,7 +801,7 @@ input {
 
 .chatbot-body {
   padding: 0;
-  height: 400px;
+  height: 80vh;
   display: flex;
   flex-direction: column;
 }
@@ -1011,7 +1019,6 @@ input {
 
 .page-info {
   padding: 0.5rem 1rem;
-  color: #a3fd8c;
 }
 
 .page-link {
