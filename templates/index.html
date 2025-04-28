@@ -96,9 +96,19 @@ limitations under the License.
                       </div>
                     </div>
                   </div>
-                  <span class="h1 mb-0" id="current-balance">
-                    {{ format_currency(balance) }}
-                  </span>
+                  <div class="balance-container">
+                    <button class="toggle-balance-btn" id="toggleBalance">
+                      <span class="material-icons show-icon">visibility</span>
+                      <span
+                        class="material-icons hide-icon"
+                        style="display: none"
+                        >visibility_off</span
+                      >
+                    </button>
+                    <span id="current-balance" class="hidden-balance"
+                      >****</span
+                    >
+                  </div>
                   <p style="display: none" id="init-balance">{{balance}}</p>
                 </div>
               </div>

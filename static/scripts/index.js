@@ -100,6 +100,47 @@ document.addEventListener("DOMContentLoaded", function (event) {
     );
   }
 
+  function initializeBalanceToggle() {
+    const toggleBtn = document.getElementById("toggleBalance");
+    const balanceElement = document.getElementById("current-balance");
+    const showIcon = toggleBtn.querySelector(".show-icon");
+    const hideIcon = toggleBtn.querySelector(".hide-icon");
+
+    // Store the actual balance value
+    let actualBalance = "";
+
+    // Update initial balance (hidden)
+    updateBalance("NGN");
+    actualBalance = balanceElement.textContent;
+    balanceElement.textContent = "****";
+
+    toggleBtn.addEventListener("click", () => {
+      const isHidden = balanceElement.classList.contains("hidden-balance");
+
+      if (isHidden) {
+        balanceElement.textContent = actualBalance;
+        showIcon.style.display = "none";
+        hideIcon.style.display = "block";
+      } else {
+        balanceElement.textContent = "****";
+        showIcon.style.display = "block";
+        hideIcon.style.display = "none";
+      }
+
+      balanceElement.classList.toggle("hidden-balance");
+    });
+
+    // Update the original updateBalance function to maintain hidden state
+    const originalUpdateBalance = updateBalance;
+    updateBalance = function (currency) {
+      originalUpdateBalance(currency);
+      if (balanceElement.classList.contains("hidden-balance")) {
+        actualBalance = balanceElement.textContent;
+        balanceElement.textContent = "****";
+      }
+    };
+  }
+
   // Add event listener to the currency dropdown
   const currencyDropdown = document.getElementById("currency-dropdown");
   if (currencyDropdown) {
@@ -232,6 +273,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   // Initialize chatbot functionality
   initializeChatbot();
+
+  initializeBalanceToggle();
 });
 
 $(function () {
