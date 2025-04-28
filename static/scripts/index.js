@@ -242,6 +242,8 @@ $(function () {
     $("#reportRangeInput").html(
       start.format("MMMM D, YYYY") + " - " + end.format("MMMM D, YYYY")
     );
+    // Reinitialize pagination after date range changes
+    initializePagination();
   }
 
   $("#reportrange").daterangepicker(
@@ -644,5 +646,77 @@ function showNotification(message, type = "error") {
   }, 5000);
 }
 
-// const historyLog = document.querySelector("#history-log");
-// console.log(historyLog.textContent)
+// Pagination functionality
+const ITEMS_PER_PAGE = 10; // Number of transactions per page
+let currentPage = 1;
+let transactionRows = [];
+
+function initializePagination() {
+  // Get all transaction rows
+  transactionRows = Array.from(
+    document.querySelectorAll("#transaction-list tr")
+  );
+  const totalPages = Math.ceil(transactionRows.length / ITEMS_PER_PAGE);
+
+  // Update total pages display
+  document.getElementById("total-pages").textContent = totalPages;
+
+  // Add event listeners to pagination controls
+  document.getElementById("prev-page").addEventListener("click", (e) => {
+    e.preventDefault();
+    if (currentPage > 1) {
+      currentPage--;
+      updatePagination();
+    }
+  });
+
+  document.getElementById("next-page").addEventListener("click", (e) => {
+    e.preventDefault();
+    if (currentPage < totalPages) {
+      currentPage++;
+      updatePagination();
+    }
+  });
+
+  // Initial pagination
+  updatePagination();
+}
+
+function updatePagination() {
+  // Calculate indexes
+  const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIdx = startIdx + ITEMS_PER_PAGE;
+  const totalPages = Math.ceil(transactionRows.length / ITEMS_PER_PAGE);
+
+  // Update page numbers
+  document.getElementById("current-page").textContent = currentPage;
+
+  // Update pagination buttons state
+  document
+    .getElementById("prev-page")
+    .classList.toggle("disabled", currentPage === 1);
+  document
+    .getElementById("next-page")
+    .classList.toggle("disabled", currentPage === totalPages);
+
+  // Hide all rows
+  transactionRows.forEach((row) => (row.style.display = "none"));
+
+  // Show only rows for current page
+  transactionRows
+    .slice(startIdx, endIdx)
+    .forEach((row) => (row.style.display = ""));
+}
+
+// Initialize pagination when document is loaded
+document.addEventListener("DOMContentLoaded", function () {
+  if (document.getElementById("transaction-list")) {
+    initializePagination();
+  }
+});
+
+// Add this to the existing daterangepicker callback to handle pagination after date changes
+$("#reportrange").on("apply.daterangepicker", function (ev, picker) {
+  // After loading new transactions
+  initializePagination();
+});

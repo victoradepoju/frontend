@@ -188,7 +188,7 @@ limitations under the License.
               {% elif history|length == 0 %}
               <h4 class="card-table-header">No Transactions Found</h4>
               {% else %}
-              
+
               <table class="table table-sm table-nowrap card-table">
                 <thead class="text-uppercase">
                   <tr>
@@ -214,7 +214,6 @@ limitations under the License.
                 </thead>
                 <tbody class="list" id="transaction-list">
                   {% for t in history %}
-                  <!-- <div style="display: none;" id="history-log">{{t}}</div> -->
                   <tr>
                     <td class="text-uppercase transaction-date">
                       <p>
@@ -279,6 +278,28 @@ limitations under the License.
                   {% endfor %}
                 </tbody>
               </table>
+              <div class="pagination-container">
+                <nav aria-label="Transaction history navigation">
+                  <ul class="pagination justify-content-center">
+                    <li class="page-item" id="prev-page">
+                      <a class="page-link" href="#" aria-label="Previous">
+                        <span class="material-icons">chevron_left</span>
+                      </a>
+                    </li>
+                    <li class="page-item">
+                      <span class="page-info"
+                        >Page <span id="current-page">1</span> of
+                        <span id="total-pages">1</span></span
+                      >
+                    </li>
+                    <li class="page-item" id="next-page">
+                      <a class="page-link" href="#" aria-label="Next">
+                        <span class="material-icons">chevron_right</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
               {% endif %}
             </div>
           </div>

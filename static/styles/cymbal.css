@@ -686,6 +686,10 @@ input {
   gap: 10px;
 }
 
+.table-header-left {
+  flex-direction: column;
+}
+
 #reportrange {
   background: #fff;
   cursor: pointer;
@@ -994,4 +998,34 @@ input {
   background-color: #008a20;
   border-color: transparent;
   color: #fff;
+}
+
+.pagination-container {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.pagination {
+  margin-bottom: 0;
+}
+
+.page-info {
+  padding: 0.5rem 1rem;
+  color: #6c757d;
+}
+
+.page-link {
+  color: #008a20;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+}
+
+.page-link:hover {
+  color: #006200;
+}
+
+.page-item.disabled .page-link {
+  color: #6c757d;
+  pointer-events: none;
 }
