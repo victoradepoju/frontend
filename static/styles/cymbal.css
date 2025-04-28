@@ -686,6 +686,10 @@ input {
   gap: 10px;
 }
 
+.table-header-left {
+  flex-direction: column;
+}
+
 #reportrange {
   background: #fff;
   cursor: pointer;

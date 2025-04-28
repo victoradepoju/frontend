@@ -643,6 +643,3 @@ function showNotification(message, type = "error") {
     alertDiv.remove();
   }, 5000);
 }
-
-// const historyLog = document.querySelector("#history-log");
-// console.log(historyLog.textContent)
