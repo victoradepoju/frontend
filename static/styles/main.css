@@ -27,3 +27,24 @@
   color: #6c757d;
   pointer-events: none;
 }
+
+.dropdown-menu-end {
+  right: 0;
+  left: auto;
+}
+
+.nav-item.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-item {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+}
