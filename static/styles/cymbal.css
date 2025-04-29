@@ -201,6 +201,7 @@ bottom: 10px;
 }
 
 .account-num-text {
+  text-wrap-mode: nowrap;
   font-weight: 600;
   margin-right: 8px;
   vertical-align: middle !important;

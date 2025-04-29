@@ -789,35 +789,52 @@ $("#reportrange").on("apply.daterangepicker", function (ev, picker) {
 });
 
 function initializeAccountCopy() {
-  const copyButton = document.querySelector(".copy-button");
-  const accountNumber = document.querySelector(".account-number");
+  const copyButton = document.querySelector('.copy-button');
+  const accountNumber = document.querySelector('.account-number');
 
   if (!copyButton || !accountNumber) return;
 
   copyButton.addEventListener("click", async () => {
     const number = accountNumber.textContent.trim();
-
+    
     try {
-      await navigator.clipboard.writeText(number);
+      // Try using Clipboard API first
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(number);
+      } else {
+        // Fallback to textarea method
+        const textarea = document.createElement('textarea');
+        textarea.value = number;
+        textarea.style.position = 'fixed'; // Prevent scrolling to bottom
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        
+        const success = document.execCommand('copy');
+        document.body.removeChild(textarea);
+        
+        if (!success) throw new Error('Copy command failed');
+      }
 
       // Update tooltip text
-      const tooltip = copyButton.querySelector(".copy-tooltip");
+      const tooltip = copyButton.querySelector('.copy-tooltip');
       const originalText = tooltip.textContent;
-      tooltip.textContent = "Copied!";
-
+      tooltip.textContent = 'Copied!';
+      
       // Add success animation class
-      copyButton.classList.add("copied");
-
+      copyButton.classList.add('copied');
+      
       // Show notification
       showCopyNotification();
-
+      
       // Reset after animation
       setTimeout(() => {
-        copyButton.classList.remove("copied");
+        copyButton.classList.remove('copied');
         tooltip.textContent = originalText;
       }, 2000);
+      
     } catch (err) {
-      console.error("Failed to copy:", err);
+      console.error('Failed to copy:', err);
       showCopyNotification(true);
     }
   });
