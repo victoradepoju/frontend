@@ -275,6 +275,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
   initializeChatbot();
 
   initializeBalanceToggle();
+
+  initializeAccountCopy();
 });
 
 $(function () {
@@ -785,3 +787,71 @@ $("#reportrange").on("apply.daterangepicker", function (ev, picker) {
   // After loading new transactions
   initializePagination();
 });
+
+function initializeAccountCopy() {
+  const copyButton = document.querySelector(".copy-button");
+  const accountNumber = document.querySelector(".account-number");
+
+  if (!copyButton || !accountNumber) return;
+
+  copyButton.addEventListener("click", async () => {
+    const number = accountNumber.textContent.trim();
+
+    try {
+      await navigator.clipboard.writeText(number);
+
+      // Update tooltip text
+      const tooltip = copyButton.querySelector(".copy-tooltip");
+      const originalText = tooltip.textContent;
+      tooltip.textContent = "Copied!";
+
+      // Add success animation class
+      copyButton.classList.add("copied");
+
+      // Show notification
+      showCopyNotification();
+
+      // Reset after animation
+      setTimeout(() => {
+        copyButton.classList.remove("copied");
+        tooltip.textContent = originalText;
+      }, 2000);
+    } catch (err) {
+      console.error("Failed to copy:", err);
+      showCopyNotification(true);
+    }
+  });
+}
+
+function showCopyNotification(isError = false) {
+  // Remove existing notification
+  const existingNotification = document.querySelector(".copy-notification");
+  if (existingNotification) {
+    existingNotification.remove();
+  }
+
+  // Create new notification
+  const notification = document.createElement("div");
+  notification.className = "copy-notification";
+
+  if (!isError) {
+    notification.innerHTML = `
+      <span class="material-icons">check_circle</span>
+      <span>Account number copied to clipboard</span>
+    `;
+  } else {
+    notification.innerHTML = `
+      <span class="material-icons">error</span>
+      <span>Failed to copy account number</span>
+    `;
+  }
+
+  // Add to document
+  document.body.appendChild(notification);
+
+  // Remove after 3 seconds
+  setTimeout(() => {
+    notification.style.animation = "slideIn 0.3s ease reverse";
+    setTimeout(() => notification.remove(), 300);
+  }, 3000);
+}

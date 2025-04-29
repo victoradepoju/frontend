@@ -1092,3 +1092,107 @@ input {
   justify-content: space-between;
   align-items: center;
 }
+
+/* Add these styles at the end of the file */
+
+.account-number-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.account-number-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+}
+
+.copy-button {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.copy-button .copy-icon {
+  font-size: 18px;
+  color: #008a20;
+  transition: transform 0.2s ease;
+}
+
+.copy-button:hover .copy-icon {
+  transform: scale(1.1);
+}
+
+.copy-tooltip {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+}
+
+.copy-button:hover .copy-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(-4px);
+}
+
+.copy-button.copied .copy-icon {
+  color: #006200;
+  animation: copySuccess 0.5s ease;
+}
+
+.copy-button.copied .copy-tooltip {
+  background: #008a20;
+  content: "Copied!";
+}
+
+@keyframes copySuccess {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+.copy-notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #008a20;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  animation: slideIn 0.3s ease;
+  z-index: 1000;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
