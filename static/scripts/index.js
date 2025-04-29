@@ -589,7 +589,7 @@ function processUserQuery(query) {
       "I can help you analyze your transaction history. Try asking questions like 'What was my largest expense last month?' or 'Show transactions to [merchant name]'.";
   }
 
-  addChatMessage("Transaction Assistant", response, true);
+  addChatMessage("Anthos", response, true);
 }
 
 // Make sure to initialize when the document is fully loaded
